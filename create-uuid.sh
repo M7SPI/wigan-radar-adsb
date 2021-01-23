@@ -1,6 +1,6 @@
 #!/bin/bash
 
-UUID_FILE="/boot/adsbx-uuid"
+UUID_FILE="/boot/flyitalyadsb-uuid"
 
 # Let's make sure the UUID tools are installed...
 UUIDGEN=$(command -v uuidgen)

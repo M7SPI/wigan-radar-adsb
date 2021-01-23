@@ -50,7 +50,7 @@ echo "Checking for packages needed to run this script..."
 
 ## ASSIGN VARIABLES
 
-IPATH=/usr/local/share/adsbexchange
+IPATH=/usr/local/share/flyitalyadsb-exchange
 LOGDIRECTORY="$PWD/logs"
 
 ## WHIPTAIL DIALOGS
@@ -60,7 +60,7 @@ BACKTITLETEXT="ADS-B Exchange Setup Script"
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Thanks for choosing to share your data with ADS-B Exchange!\n\nADSBexchange.com is a co-op of ADS-B/Mode S/MLAT feeders from around the world. This script will configure your current your ADS-B receiver to share your feeders data with ADS-B Exchange.\n\nWould you like to continue setup?" 13 78
 if [[ $? != 0 ]]; then abort; fi
 
-ADSBEXCHANGEUSERNAME=$(whiptail --backtitle "$BACKTITLETEXT" --title "Feeder MLAT Name" --nocancel --inputbox "\nPlease enter a unique name for the feeder to be shown on the MLAT matrix (http://adsbx.org/sync)\n\nText and Numbers only - everything else will be removed.\nExample: \"william34-london\", \"william34-jersey\", etc." 12 78 3>&1 1>&2 2>&3)
+FLYITALYADSB_=$(whiptail --backtitle "$BACKTITLETEXT" --title "Feeder MLAT Name" --nocancel --inputbox "\nPlease enter a unique name for the feeder to be shown on the MLAT matrix (http://adsbx.org/sync)\n\nText and Numbers only - everything else will be removed.\nExample: \"william34-london\", \"william34-jersey\", etc." 12 78 3>&1 1>&2 2>&3)
 
 if [[ $? != 0 ]]; then abort; fi
 
@@ -123,9 +123,6 @@ fi
 
 {
 
-    # remove previously used folder to avoid confusion
-    rm -rf /usr/local/share/adsb-exchange &>/dev/null
-
     # Make a log directory if it does not already exist.
     if [ ! -d "$LOGDIRECTORY" ]; then
         mkdir $LOGDIRECTORY
@@ -136,9 +133,9 @@ fi
     mkdir -p $IPATH >> $LOGFILE  2>&1
     cp uninstall.sh $IPATH >> $LOGFILE  2>&1
 
-    if ! id -u adsbexchange &>/dev/null
+    if ! id -u flyitalyadsb &>/dev/null
     then
-        adduser --system --home $IPATH --no-create-home --quiet adsbexchange >> $LOGFILE  2>&1
+        adduser --system --home $IPATH --no-create-home --quiet flyitalyadsb >> $LOGFILE  2>&1
     fi
 
     echo 4
@@ -198,7 +195,7 @@ fi
 
     CURRENT_DIR=$PWD
 
-    MLAT_REPO="https://github.com/adsbxchange/mlat-client.git"
+    MLAT_REPO="https://github.com/adsbxchange/mlat-client.git" # TODO: do we want to fork also this repo?
     MLAT_VERSION="$(git ls-remote $MLAT_REPO 2>> $LOGFILE | grep HEAD | cut -f1)"
     if ! grep -e "$MLAT_VERSION" -qs $IPATH/mlat_version; then
         echo "Installing mlat-client to virtual environment" >> $LOGFILE
@@ -235,17 +232,17 @@ fi
     sleep 0.25
     echo 54
 
-    NOSPACENAME="$(echo -n -e "${ADSBEXCHANGEUSERNAME}" | tr -c '[a-zA-Z0-9]_\- ' '_')"
+    NOSPACENAME="$(echo -n -e "${FLYITALYADSB_}" | tr -c '[a-zA-Z0-9]_\- ' '_')"
 
     echo 64
     sleep 0.25
 
-    # copy adsbexchange-mlat service file
-    cp $PWD/scripts/adsbexchange-mlat.sh $IPATH >> $LOGFILE 2>&1
-    cp $PWD/scripts/adsbexchange-mlat.service /lib/systemd/system >> $LOGFILE 2>&1
+    # copy flyitalyadsb-mlat service file
+    cp $PWD/scripts/flyitalyadsb-mlat.sh $IPATH >> $LOGFILE 2>&1
+    cp $PWD/scripts/flyitalyadsb-mlat.service /lib/systemd/system >> $LOGFILE 2>&1
 
-    # Enable adsbexchange-mlat service
-    systemctl enable adsbexchange-mlat >> $LOGFILE 2>&1
+    # Enable flyitalyadsb-mlat service
+    systemctl enable flyitalyadsb-mlat >> $LOGFILE 2>&1
 
     echo 70
     sleep 0.25
@@ -297,10 +294,10 @@ fi
     echo "" >> $LOGFILE
     echo "" >> $LOGFILE
 
-    cp $PWD/scripts/adsbexchange-feed.sh $IPATH >> $LOGFILE 2>&1
-    cp $PWD/scripts/adsbexchange-feed.service /lib/systemd/system >> $LOGFILE 2>&1
+    cp $PWD/scripts/flyitalyadsb-feed.sh $IPATH >> $LOGFILE 2>&1
+    cp $PWD/scripts/flyitalyadsb-feed.service /lib/systemd/system >> $LOGFILE 2>&1
 
-    tee /etc/default/adsbexchange > /dev/null 2>> $LOGFILE <<EOF
+    tee /etc/default/flyitalyadsb > /dev/null 2>> $LOGFILE <<EOF
     INPUT="127.0.0.1:30005"
     REDUCE_INTERVAL="0.5"
 
@@ -329,8 +326,8 @@ EOF
     echo 82
     sleep 0.25
 
-    # Enable adsbexchange-feed service
-    systemctl enable adsbexchange-feed  >> $LOGFILE 2>&1
+    # Enable flyitalyadsb-feed service
+    systemctl enable flyitalyadsb-feed  >> $LOGFILE 2>&1
 
     echo 88
     sleep 0.25
@@ -357,13 +354,13 @@ EOF
     echo 94
     sleep 0.25
 
-    # Start or restart adsbexchange-feed service
-    systemctl restart adsbexchange-feed  >> $LOGFILE 2>&1
+    # Start or restart flyitalyadsb-feed service
+    systemctl restart flyitalyadsb-feed  >> $LOGFILE 2>&1
 
     echo 96
 
-    # Start or restart adsbexchange-mlat service
-    systemctl restart adsbexchange-mlat >> $LOGFILE 2>&1
+    # Start or restart flyitalyadsb-mlat service
+    systemctl restart flyitalyadsb-mlat >> $LOGFILE 2>&1
 
     echo 100
     sleep 0.25

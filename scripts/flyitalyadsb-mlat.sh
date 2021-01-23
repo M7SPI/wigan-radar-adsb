@@ -4,7 +4,7 @@ if [ -f /boot/adsb-config.txt ]; then
     source /boot/adsb-config.txt
     source /boot/adsbx-env
 else
-    source /etc/default/adsbexchange
+    source /etc/default/flyitalyadsb
 fi
 
 INPUT_IP=$(echo $INPUT | cut -d: -f1)
@@ -15,7 +15,7 @@ while ! nc -z "$INPUT_IP" "$INPUT_PORT" && command -v nc &>/dev/null; do
     sleep 30
 done
 
-/usr/local/share/adsbexchange/venv/bin/mlat-client \
+/usr/local/share/flyitalyadsb/venv/bin/mlat-client \
     --input-type "$INPUT_TYPE" --no-udp \
     --input-connect "$INPUT" \
     --server "$MLATSERVER" \
