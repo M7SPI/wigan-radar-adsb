@@ -7,7 +7,7 @@ These scripts aid in setting up your current ADS-B receiver to feed ADS-B Exchan
 Use this command to start the setup process:
 
 ```
-wget -O /tmp/axfeed.sh https://raw.githubusercontent.com/adsbxchange/adsb-exchange/master/install.sh
+wget -O /tmp/axfeed.sh https://raw.githubusercontent.com/flyitalyadsb/flyitalyadsb/master/install.sh
 sudo bash /tmp/axfeed.sh
 ```
 
