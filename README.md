@@ -1,4 +1,4 @@
-# Script di installazione di Fly Italy Adsb 
+# Installazione dello script di Fly Italy Adsb 
 
 Questo script ti permette di installare il feed per condividere i tuoi dati con Fly Italy Adsb
 
@@ -18,7 +18,7 @@ sudo bash /tmp/flyitalyadsbfeed.sh
 cat /etc/default/flyitalyadsb
 ```
 
-### Se incontri problemi, contattaci (www.flyitalyadsb.com/contattaci) e inviaci il report di questo comando (le ultime venti righe sono sufficienti)
+### Se incontri problemi, contattaci (www.flyitalyadsb.com/contattaci) e inviaci il report di questo comandi (le ultime venti righe sono sufficienti)
 
 ```
 sudo journalctl -u adsbexchange-feed --no-pager
