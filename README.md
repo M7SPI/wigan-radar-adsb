@@ -1,55 +1,48 @@
-# ADS-B Exchange Setup Scripts :airplane:
+# Script di installazione di Fly Italy Adsb 
 
-These scripts aid in setting up your current ADS-B receiver to feed ADS-B Exchange.
+Questo script ti permette di installare il feed per condividere i tuoi dati con Fly Italy Adsb
 
-### Obtaining And Using The Scripts
+### Come scaricare e utilizzare lo script?
 
-Use this command to start the setup process:
+Usa questi comandi:
 
 ```
-wget -O /tmp/axfeed.sh https://raw.githubusercontent.com/flyitalyadsb/flyitalyadsb/master/install.sh
-sudo bash /tmp/axfeed.sh
+wget -O /tmp/flyitalyadsbfeed.sh https://raw.githubusercontent.com/flyitalyadsb/flyitalyadsb/master/install.sh
+sudo bash /tmp/flyitalyadsbfeed.sh
 ```
 
-### Checking status
+### Per controllare lo stato:
 
-### Display MLAT config
+### Mostra la configurazione MLAT
 ```
-cat /etc/default/adsbexchange
+cat /etc/default/flyitalyadsb
 ```
 
-### If you encounter issues, please supply these logs on the forum (last 20 lines for each is sufficient):
+### Se incontri problemi, contattaci (www.flyitalyadsb.com/contattaci) e inviaci il report di questo comando (le ultime venti righe sono sufficienti)
 
 ```
 sudo journalctl -u adsbexchange-feed --no-pager
 sudo journalctl -u adsbexchange-mlat --no-pager
 ```
 
-### Restart
+### Per riavviare il programma:
 
 ```
-sudo systemctl restart adsbexchange-feed
-sudo systemctl restart adsbexchange-mlat
-```
-
-
-### Systemd Status
-
-```
-sudo systemctl status adsbexchange-mlat
-sudo systemctl status adsbexchange-feed
+sudo systemctl restart flyitalyadsb-feed
+sudo systemctl restart flyitalyadsb-mlat
 ```
 
 
-### Removal / disabling the services:
+### Stato del Systemd
 
 ```
-sudo bash /usr/local/share/adsbexchange/uninstall.sh
+sudo systemctl status flyitalyadsb-mlat
+sudo systemctl status flyitalyadsb-feed
 ```
 
-If the above doesn't work, you may be using an old version that didn't have the uninstall script, just disable the services and the scripts won't run anymore:
+
+### Per rimuovere/disabilitare lo script:
 
 ```
-sudo systemctl disable --now adsbexchange-feed
-sudo systemctl disable --now adsbexchange-mlat
+sudo bash /usr/local/share/flyitalyadsb/uninstall.sh
 ```
