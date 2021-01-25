@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [ -f /boot/adsb-config.txt ]; then
-    source /boot/adsb-config.txt
-    source /boot/adsbx-env
-else
-    source /etc/default/flyitalyadsb
-fi
+source /etc/default/flyitalyadsb
 
 INPUT_IP=$(echo $INPUT | cut -d: -f1)
 INPUT_PORT=$(echo $INPUT | cut -d: -f2)

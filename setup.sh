@@ -275,8 +275,8 @@ fi
             git rev-parse HEAD > $IPATH/readsb_version 2>> $LOGFILE
         fi
 
-        rm -f $IPATH/feed-adsbx
-        cp readsb $IPATH/feed-adsbx >> $LOGFILE 2>&1
+        rm -f $IPATH/flyitalyadsb-readsb
+        cp readsb $IPATH/flyitalyadsb-readsb >> $LOGFILE 2>&1
 
         cd /tmp
         rm -rf /tmp/readsb &>/dev/null || true
@@ -318,8 +318,8 @@ fi
     PRIVACY=""
     INPUT_TYPE="dump1090"
 
-    MLATSERVER="feed.adsbexchange.com:31090"
-    TARGET="--net-connector feed.adsbexchange.com,30004,beast_reduce_out,feed.adsbexchange.com,64004"
+    MLATSERVER="flyitalyadsb.com:31090"
+    TARGET="--net-connector flyitalyadsb.com,30004,beast_reduce_out,flyitalyadsb.com,64004"
     NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --net-ro-port 0 --net-sbs-port 0 --net-bi-port 30154 --net-bo-port 0 --net-ri-port 0"
 EOF
 
