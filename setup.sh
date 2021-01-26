@@ -50,7 +50,7 @@ echo "Checking for packages needed to run this script..."
 
 ## ASSIGN VARIABLES
 
-IPATH=/usr/local/share/flyitalyadsb-exchange
+IPATH=/usr/local/share/flyitalyadsb-feed
 LOGDIRECTORY="$PWD/logs"
 
 ## WHIPTAIL DIALOGS
