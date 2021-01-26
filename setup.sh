@@ -50,7 +50,7 @@ echo "Checking for packages needed to run this script..."
 
 ## ASSIGN VARIABLES
 
-IPATH=/usr/local/share/flyitalyadsb-feed
+IPATH=/usr/local/share/flyitalyadsb
 LOGDIRECTORY="$PWD/logs"
 
 ## WHIPTAIL DIALOGS
@@ -276,8 +276,8 @@ fi
             git rev-parse HEAD > $IPATH/readsb_version 2>> $LOGFILE
         fi
 
-        rm -f $IPATH/flyitalyadsb-readsb
-        cp readsb $IPATH/flyitalyadsb-readsb >> $LOGFILE 2>&1
+        rm -f $IPATH/feed
+        cp readsb $IPATH/feed >> $LOGFILE 2>&1
 
         cd /tmp
         rm -rf /tmp/readsb &>/dev/null || true

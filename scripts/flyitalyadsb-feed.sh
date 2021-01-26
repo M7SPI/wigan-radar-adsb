@@ -13,7 +13,7 @@ while ! nc -z "$INPUT_IP" "$INPUT_PORT" && command -v nc &>/dev/null; do
     sleep 30
 done
 
-/usr/local/share/flyitalyadsb/feed-adsbx --net --net-only --debug=n --quiet \
+/usr/local/share/flyitalyadsb/feed --net --net-only --debug=n --quiet \
     --write-json /run/flyitalyadsb-feed \
     --net-beast-reduce-interval $REDUCE_INTERVAL \
     $TARGET $NET_OPTIONS $SOURCE \
