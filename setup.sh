@@ -57,7 +57,7 @@ LOGDIRECTORY="$PWD/logs"
 
 BACKTITLETEXT="Script di installazione del feed di Fly Italy Adsb"
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Grazie per aver scelto di condividere i tuoi dati con Fly Italy Adsb \n\nFlyItalyAdsb.com è la prima community italiana che tratta di ADS-B. Questo script configurerà in automatico il tuo ricevitore per condividere i dati con Fly Italy Adsb\n\nVuoi continuare con l'installazione?" 13 78
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Grazie per aver scelto di condividere i tuoi dati con Fly Italy Adsb.\n\nFlyItalyAdsb.com è la prima community italiana che tratta di ADS-B. Questo script configurerà in automatico il tuo ricevitore per condividere i dati con Fly Italy Adsb\n\nVuoi continuare con l'installazione?" 13 78
 if [[ $? != 0 ]]; then abort; fi
 
 FLYITALYADSB_=$(whiptail --backtitle "$BACKTITLETEXT" --title "Nome utente" --nocancel --inputbox "\nPer favore inserisci un nome per il tuo ricevitore (http://flyitalyadsb.com/stato-mlat)\n\nUsa solo lettere e numeri.\nEsempio: \"Giorgio34\", \"Piacenza1\", etc." 12 78 3>&1 1>&2 2>&3)
