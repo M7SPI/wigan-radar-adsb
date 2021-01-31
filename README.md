@@ -7,7 +7,7 @@ Questo script ti permette di installare il feed per condividere i tuoi dati con 
 Usa questi comandi:
 
 ```
-wget -O /tmp/flyitalyadsbfeed.sh https://raw.githubusercontent.com/flyitalyadsb/flyitalyadsb/master/install.sh
+wget -O /tmp/flyitalyadsbfeed.sh https://raw.githubusercontent.com/flyitalyadsb/fly-italy-adsb/master/install.sh
 sudo bash /tmp/flyitalyadsbfeed.sh
 ```
 
