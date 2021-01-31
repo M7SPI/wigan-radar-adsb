@@ -6,6 +6,6 @@ if ! command -v git; then
 fi
 rm -rf "$TMP"
 set -e
-git clone https://github.com/flyitalyadsb/flyitalyadsb.git "$TMP"
+git clone https://github.com/flyitalyadsb/fly-italy-adsb.git "$TMP"
 cd "$TMP"
 bash setup.sh
