@@ -29,8 +29,8 @@
 
 function abort() {
     echo ------------
-    echo "Setup canceled (probably using Esc button)!"
-    echo "Please re-run this setup if this wasn't your intention."
+    echo "Intallazione annullata (probabilmente premendo ESC)!"
+    echo "Per favore esegui nuovamente questo script se non era tua intenzione"
     echo ------------
     exit 1
 }
@@ -39,14 +39,14 @@ function abort() {
 
 if [ "$(id -u)" != "0" ]; then
     echo -e "\033[33m"
-    echo "This script must be ran using sudo or as root."
+    echo "Lo script deve essere eseguito tramite sudo o come utente root"
     echo -e "\033[37m"
     exit 1
 fi
 
 ## CHECK FOR PACKAGES NEEDED BY THIS SCRIPT
 
-echo "Checking for packages needed to run this script..."
+echo "Verifico i pacchetti necessari per eseguire questo script.."
 
 ## ASSIGN VARIABLES
 
@@ -55,26 +55,26 @@ LOGDIRECTORY="$PWD/logs"
 
 ## WHIPTAIL DIALOGS
 
-BACKTITLETEXT="ADS-B Exchange Setup Script"
+BACKTITLETEXT="Script di installazione del feed di Fly Italy Adsb"
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Thanks for choosing to share your data with ADS-B Exchange!\n\nADSBexchange.com is a co-op of ADS-B/Mode S/MLAT feeders from around the world. This script will configure your current your ADS-B receiver to share your feeders data with ADS-B Exchange.\n\nWould you like to continue setup?" 13 78
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Grazie per aver scelto di condividere i tuoi dati con FLy Italy Adsb \n\nflyitalyadsb.com è la prima community italiana che tratta di ADS-B. Questo scrrip configurerà in automatico il tuo ricevitore per condividere i dait con FLy Italy Adsb\n\nVuoi continuare con l'installazione?" 13 78
 if [[ $? != 0 ]]; then abort; fi
 
-FLYITALYADSB_=$(whiptail --backtitle "$BACKTITLETEXT" --title "Feeder MLAT Name" --nocancel --inputbox "\nPlease enter a unique name for the feeder to be shown on the MLAT matrix (http://adsbx.org/sync)\n\nText and Numbers only - everything else will be removed.\nExample: \"william34-london\", \"william34-jersey\", etc." 12 78 3>&1 1>&2 2>&3)
+FLYITALYADSB_=$(whiptail --backtitle "$BACKTITLETEXT" --title "Feeder MLAT Name" --nocancel --inputbox "\nPer favore inserisci un nome per il tuo ricevitore (http://adsbx.org/sync)\n\nUsa solo lettere e numeri.\nEsempio: \"Giorgio34\", \"Piacenza1\", etc." 12 78 3>&1 1>&2 2>&3)
 
 if [[ $? != 0 ]]; then abort; fi
 
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" \
-    --msgbox "For MLAT the precise location of your antenna is required.\
-    \n\nA small error of 15m/45ft will cause issues with MLAT!\
-    \n\nTo get your location, use any online map service or this website: https://www.mapcoordinates.net/en" 12 78
+    --msgbox "Affinché la multilaterazione funzioni inserisci con precisione la posizione dell'antenna\
+    \n\nUn errore di 5 metri casuerà gravi problemi!\
+    \n\nPer ottenere le coordinate puoi usare un sito web come https://www.mapcoordinates.net/it" 12 78
 
 if [[ $? != 0 ]]; then abort; fi
 
 #((-90 <= RECEIVERLATITUDE <= 90))
 LAT_OK=0
 until [ $LAT_OK -eq 1 ]; do
-    RECEIVERLATITUDE=$(whiptail --backtitle "$BACKTITLETEXT" --title "Receiver Latitude ${RECEIVERLATITUDE:-}" --nocancel --inputbox "\nEnter your receivers precise latitude in degrees with 5 decimal places.\n(Example: 32.36291)" 12 78 3>&1 1>&2 2>&3)
+    RECEIVERLATITUDE=$(whiptail --backtitle "$BACKTITLETEXT" --title "Latitudine dell'antenna ${RECEIVERLATITUDE:-}" --nocancel --inputbox "\nInserisci la latitudine in gradi dell'antenna con 5 decimali.\n(Esempio: 9.78342)" 12 78 3>&1 1>&2 2>&3)
     if [[ $? != 0 ]]; then abort; fi
     LAT_OK=`awk -v LAT="$RECEIVERLATITUDE" 'BEGIN {printf (LAT<90 && LAT>-90 ? "1" : "0")}'`
 done
@@ -83,18 +83,18 @@ done
 #((-180<= RECEIVERLONGITUDE <= 180))
 LON_OK=0
 until [ $LON_OK -eq 1 ]; do
-    RECEIVERLONGITUDE=$(whiptail --backtitle "$BACKTITLETEXT" --title "Receiver Longitude ${RECEIVERLONGITUDE:-}" --nocancel --inputbox "\nEnter your receivers longitude in degrees with 5 decimal places.\n(Example: -64.71492)" 12 78 3>&1 1>&2 2>&3)
+    RECEIVERLONGITUDE=$(whiptail --backtitle "$BACKTITLETEXT" --title "Longitudine dell'antenna ${RECEIVERLONGITUDE:-}" --nocancel --inputbox "\nInserisci la longitudine in gradi dell'antenna con 5 decimali.\n(Esempio: 45.36373)" 12 78 3>&1 1>&2 2>&3)
     if [[ $? != 0 ]]; then abort; fi
     LON_OK=`awk -v LAT="$RECEIVERLONGITUDE" 'BEGIN {printf (LAT<180 && LAT>-180 ? "1" : "0")}'`
 done
 
 ALT=""
 until [[ $ALT =~ ^(.*)ft$ ]] || [[ $ALT =~ ^(.*)m$ ]]; do
-    ALT=$(whiptail --backtitle "$BACKTITLETEXT" --title "Altitude above sea level (at the antenna):" \
+    ALT=$(whiptail --backtitle "$BACKTITLETEXT" --title "Altitudine sul livello del mare dell'antenna:" \
         --nocancel --inputbox \
-"\nEnter your receivers altitude above sea level including the unit:\n\n\
-in feet like this:                   255ft\n\
-or in meters like this:               78m\n" \
+"\nInserisci la l'altitudine includendo l'unità:\n\n\
+In piedi così:                   255ft\n\
+o in metri così:               78m\n" \
         12 78 3>&1 1>&2 2>&3)
     if [[ $? != 0 ]]; then abort; fi
 done
@@ -111,10 +111,10 @@ fi
 
 RECEIVERALTITUDE="$ALT"
 
-#RECEIVERPORT=$(whiptail --backtitle "$BACKTITLETEXT" --title "Receiver Feed Port" --nocancel --inputbox "\nChange only if you were assigned a custom feed port.\nFor most all users it is required this port remain set to port 30005." 10 78 "30005" 3>&1 1>&2 2>&3)
+#RECEIVERPORT=$(whiptail --backtitle "$BACKTITLETEXT" --title "Porta da dove lo script deve ascoltare" --nocancel --inputbox "\nCambia soltanto se sai quello che fai e hai cambiato manualmente la porta\nPer la maggior parte degli utenti va lasciato 30005." 10 78 "30005" 3>&1 1>&2 2>&3)
 
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "We are now ready to begin setting up your receiver to feed ADS-B Exchange.\n\nDo you wish to proceed?" 9 78
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Ora sei pronto per condividere i tuoi dati con Fly Italy Adsb .\n\nVuoi continuare?" 9 78
 CONTINUESETUP=$?
 if [ $CONTINUESETUP = 1 ]; then
     exit 0
@@ -144,7 +144,7 @@ fi
 
     # BUILD AND CONFIGURE THE MLAT-CLIENT PACKAGE
 
-    echo "INSTALLING PREREQUISITE PACKAGES" >> $LOGFILE
+    echo "Installando i prerequisiti" >> $LOGFILE
     echo "--------------------------------------" >> $LOGFILE
     echo "" >> $LOGFILE
 
@@ -199,7 +199,7 @@ fi
     MLAT_REPO="https://github.com/adsbxchange/mlat-client.git" # TODO: do we want to fork also this repo?
     MLAT_VERSION="$(git ls-remote $MLAT_REPO 2>> $LOGFILE | grep HEAD | cut -f1)"
     if ! grep -e "$MLAT_VERSION" -qs $IPATH/mlat_version; then
-        echo "Installing mlat-client to virtual environment" >> $LOGFILE
+        echo "Installando mlat-client in un virtual-env" >> $LOGFILE
         # Check if the mlat-client git repository already exists.
         VENV=$IPATH/venv
         mkdir -p $IPATH >> $LOGFILE 2>&1
@@ -222,7 +222,7 @@ fi
             && git rev-parse HEAD > $IPATH/mlat_version 2>> $LOGFILE
 
     else
-        echo "mlat-client already installed, git hash:" >> $LOGFILE
+        echo "Mlat-client è già stato installato, git hash:" >> $LOGFILE
         cat $IPATH/mlat_version >> $LOGFILE
     fi
 
@@ -251,7 +251,7 @@ fi
     # SETUP FEEDER TO SEND DUMP1090 DATA TO ADS-B EXCHANGE
 
     echo "" >> $LOGFILE
-    echo " BUILD AND INSTALL FEED CLIENT" >> $LOGFILE
+    echo " COMPILANDO E INSTALLANDO IL FEED" >> $LOGFILE
     echo "-------------------------------------------------" >> $LOGFILE
     echo "" >> $LOGFILE
 
@@ -261,7 +261,7 @@ fi
     READSB_REPO="https://github.com/adsbxchange/readsb.git"
     READSB_VERSION="$(git ls-remote $READSB_REPO 2>> $LOGFILE | grep HEAD | cut -f1)"
     if ! grep -e "$READSB_VERSION" -qs $IPATH/readsb_version; then
-        echo "Compiling / installing the readsb based feed client" >> $LOGFILE
+        echo "Compilando e installando il client del feed" >> $LOGFILE
         echo "" >> $LOGFILE
 
         #compile readsb
@@ -284,7 +284,7 @@ fi
         echo "" >> $LOGFILE
         echo "" >> $LOGFILE
     else
-        echo "Feed client already installed, git hash:" >> $LOGFILE 2>&1
+        echo "Il client è già installato, git hash:" >> $LOGFILE 2>&1
         cat $IPATH/readsb_version >> $LOGFILE 2>&1
     fi
 
@@ -303,19 +303,19 @@ fi
     REDUCE_INTERVAL="0.5"
 
     # feed name for checking MLAT sync (adsbx.org/sync)
-    USER="${NOSPACENAME}"
+    UTENTE="${NOSPACENAME}"
 
-    LATITUDE="$RECEIVERLATITUDE"
-    LONGITUDE="$RECEIVERLONGITUDE"
+    LATITUDINE="$RECEIVERLATITUDE"
+    LONGITUDINE="$RECEIVERLONGITUDE"
 
-    ALTITUDE="$RECEIVERALTITUDE"
+    ALTITUDINE="$RECEIVERALTITUDE"
 
-    RESULTS="--results beast,connect,localhost:30104"
-    RESULTS2="--results basestation,listen,31003"
-    RESULTS3="--results beast,listen,30157"
-    RESULTS4="--results beast,connect,localhost:30154"
-    # add --privacy between the quotes below to disable having the feed name shown on the mlat map
-    # (position is never shown accurately no matter the settings)
+    RISULTATI="--results beast,connect,localhost:30104"
+    RISULTATI2="--results basestation,listen,31003"
+    RISULTATI3="--results beast,listen,30157"
+    RISULTATI4="--results beast,connect,localhost:30154"
+    # inserisci --privacy per non mostrare il tuo nome nella pagina di stato mlat 
+    # la posizone accurata non viene mai mostrata in qualunque caso
     PRIVACY=""
     INPUT_TYPE="dump1090"
 
@@ -368,61 +368,63 @@ EOF
 
     cp $LOGFILE $IPATH/lastlog &>/dev/null
 
-} | whiptail --backtitle "$BACKTITLETEXT" --title "Setting Up ADS-B Exchange Feed"  --gauge "\nSetting up your receiver to feed ADS-B Exchange.\nThe setup process may take awhile to complete..." 8 60 0
+} | whiptail --backtitle "$BACKTITLETEXT" --title "Impostando il feed di Fly Italy Adsb"  --gauge "\nImpostando il feed di FLy Italy Adsb.\nPotrebbe impiegarci qualche minuto..." 8 60 0
 
 ## SETUP COMPLETE
 
 ENDTEXT="
-Setup is now complete.
+L'installazione è stata completata.
 
-You should now be feeding data to ADS-B Exchange.
+Ora stai condividendo i tuoi dati con FLy Italy Adsb.
 
-Thanks again for choosing to share your data with ADS-B Exchange!
+Grazie ancora per condividere i tuoi dati con Fly Italy Adsb!
 
-If you're curious, check your feed status after 5 min:
+Se sei curioso e hai abilitato la funzione MLAT, allora puoi controllare lo stato del tuo ricevitore a questo indirizzo:
 
-https://adsbexchange.com/myip/
-http://adsbx.org/sync
+https://www.flyitalyadsb.com/stato-mlat
 
-If you have questions or encountered any issues while using this script feel free to post them to one of the following places:
+Se hai incontrato qualche problema nell'installazione del feed o vorresti darci qualche suggerimento visita:
 
-https://www.adsbexchange.com/forum/threads/adsbexchange-setup-scripts.631609/
-https://discord.gg/ErEztqg
+https://www.flyitalyadsb.com/
+
+oppure mandaci direttamente una email all'indirizzo:
+
+installazione@flyitalyadsb.com
 "
 
 
 if ! nc -z 127.0.0.1 30005 && command -v nc &>/dev/null; then
     ENDTEXT2="
 ---------------------
-No data available on port 30005!
+Nessun dato disponibile sulla porta 30005!
 ---------------------
-If your data source is another device / receiver, see the advice here:
-https://github.com/adsbxchange/wiki/wiki/Datasource-other-device
+Se il feed deve ricevere i dati da un altra porta/sorgente vedi questa pagina per modificare le impostazioni:
+https://flyitalyadsb.com/configurazione-script
 "
     if [ -f /etc/fr24feed.ini ] || [ -f /etc/rb24.ini ]; then
         ENDTEXT2+="
-It looks like you are running FR24 or RB24
-This means you will need to install a stand-alone decoder so data are avaible on port 30005!
+Sembra che stai usando FR24 o BR24
+Questo significa che devi usare un altro decoder per far si che i dati siano disponibili sulla porta 30005!
 
-If you have the SDR connected to this device, we recommend using this script to install and configure a stand-alone decoder:
+Se hai una chiavetta SDR connessa a questo dispositivo, ti consigliamo di installare questo decoder:
 
 https://github.com/wiedehopf/adsb-scripts/wiki/readsb-script
 ---------------------
 "
     else
         ENDTEXT2+="
-If you have connected an SDR but not yet installed an ADS-B decoder for it,
-we recommend this script:
+Se hai connesso a questo dispositivo una chiavetta SDR ma non hai ancora
+installato il decoder ti consigliamo questo::
 
 https://github.com/wiedehopf/adsb-scripts/wiki/readsb-script
 ---------------------
 "
     fi
-    whiptail --title "ADS-B Exchange Setup Script" --msgbox "$ENDTEXT2" 24 73
+    whiptail --title "Script di installazione del feed di FLy Italy Adsb" --msgbox "$ENDTEXT2" 24 73
     echo -e "$ENDTEXT2"
 else
     # Display the thank you message box.
-    whiptail --title "ADS-B Exchange Setup Script" --msgbox "$ENDTEXT" 24 73
+    whiptail --title "Script di installazione del feed di FLy Italy Adsb" --msgbox "$ENDTEXT" 24 73
     echo -e "$ENDTEXT"
 fi
 
