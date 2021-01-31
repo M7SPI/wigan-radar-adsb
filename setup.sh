@@ -57,17 +57,17 @@ LOGDIRECTORY="$PWD/logs"
 
 BACKTITLETEXT="Script di installazione del feed di Fly Italy Adsb"
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Grazie per aver scelto di condividere i tuoi dati con FLy Italy Adsb \n\nflyitalyadsb.com è la prima community italiana che tratta di ADS-B. Questo scrrip configurerà in automatico il tuo ricevitore per condividere i dait con FLy Italy Adsb\n\nVuoi continuare con l'installazione?" 13 78
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Grazie per aver scelto di condividere i tuoi dati con Fly Italy Adsb \n\nFlyItalyAdsb.com è la prima community italiana che tratta di ADS-B. Questo script configurerà in automatico il tuo ricevitore per condividere i dati con Fly Italy Adsb\n\nVuoi continuare con l'installazione?" 13 78
 if [[ $? != 0 ]]; then abort; fi
 
-FLYITALYADSB_=$(whiptail --backtitle "$BACKTITLETEXT" --title "Feeder MLAT Name" --nocancel --inputbox "\nPer favore inserisci un nome per il tuo ricevitore (http://adsbx.org/sync)\n\nUsa solo lettere e numeri.\nEsempio: \"Giorgio34\", \"Piacenza1\", etc." 12 78 3>&1 1>&2 2>&3)
+FLYITALYADSB_=$(whiptail --backtitle "$BACKTITLETEXT" --title "Nome utente" --nocancel --inputbox "\nPer favore inserisci un nome per il tuo ricevitore (http://flyitalyadsb.com/stato-mlat)\n\nUsa solo lettere e numeri.\nEsempio: \"Giorgio34\", \"Piacenza1\", etc." 12 78 3>&1 1>&2 2>&3)
 
 if [[ $? != 0 ]]; then abort; fi
 
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" \
     --msgbox "Affinché la multilaterazione funzioni inserisci con precisione la posizione dell'antenna\
     \n\nUn errore di 5 metri casuerà gravi problemi!\
-    \n\nPer ottenere le coordinate puoi usare un sito web come https://www.mapcoordinates.net/it" 12 78
+    \n\nPer ottenere le coordinate puoi usare un sito web come mapcoordinates.net" 12 78
 
 if [[ $? != 0 ]]; then abort; fi
 
@@ -114,7 +114,7 @@ RECEIVERALTITUDE="$ALT"
 #RECEIVERPORT=$(whiptail --backtitle "$BACKTITLETEXT" --title "Porta da dove lo script deve ascoltare" --nocancel --inputbox "\nCambia soltanto se sai quello che fai e hai cambiato manualmente la porta\nPer la maggior parte degli utenti va lasciato 30005." 10 78 "30005" 3>&1 1>&2 2>&3)
 
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Ora sei pronto per condividere i tuoi dati con Fly Italy Adsb .\n\nVuoi continuare?" 9 78
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Ora sei pronto per condividere i tuoi dati con Fly Italy Adsb.\n\nVuoi continuare?" 9 78
 CONTINUESETUP=$?
 if [ $CONTINUESETUP = 1 ]; then
     exit 0
@@ -368,7 +368,7 @@ EOF
 
     cp $LOGFILE $IPATH/lastlog &>/dev/null
 
-} | whiptail --backtitle "$BACKTITLETEXT" --title "Impostando il feed di Fly Italy Adsb"  --gauge "\nImpostando il feed di FLy Italy Adsb.\nPotrebbe impiegarci qualche minuto..." 8 60 0
+} | whiptail --backtitle "$BACKTITLETEXT" --title "Impostando il feed di Fly Italy Adsb"  --gauge "\nImpostando il feed di Fly Italy Adsb.\nPotrebbe impiegarci qualche minuto..." 8 60 0
 
 ## SETUP COMPLETE
 
@@ -399,7 +399,9 @@ if ! nc -z 127.0.0.1 30005 && command -v nc &>/dev/null; then
 Nessun dato disponibile sulla porta 30005!
 ---------------------
 Se il feed deve ricevere i dati da un altra porta/sorgente vedi questa pagina per modificare le impostazioni:
+
 https://flyitalyadsb.com/configurazione-script
+--------------------
 "
     if [ -f /etc/fr24feed.ini ] || [ -f /etc/rb24.ini ]; then
         ENDTEXT2+="
@@ -413,8 +415,8 @@ https://github.com/wiedehopf/adsb-scripts/wiki/readsb-script
 "
     else
         ENDTEXT2+="
-Se hai connesso a questo dispositivo una chiavetta SDR ma non hai ancora
-installato il decoder ti consigliamo questo::
+Se hai connesso a questo dispositivo una chiavetta SDR ma non hai 
+ancora installato il decoder ti consigliamo questo:
 
 https://github.com/wiedehopf/adsb-scripts/wiki/readsb-script
 ---------------------
