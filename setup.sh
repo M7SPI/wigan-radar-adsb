@@ -420,11 +420,11 @@ https://github.com/wiedehopf/adsb-scripts/wiki/readsb-script
 ---------------------
 "
     fi
-    whiptail --title "Script di installazione del feed di FLy Italy Adsb" --msgbox "$ENDTEXT2" 24 73
+    whiptail --title "Script di installazione del feed di Fly Italy Adsb" --msgbox "$ENDTEXT2" 24 73
     echo -e "$ENDTEXT2"
 else
     # Display the thank you message box.
-    whiptail --title "Script di installazione del feed di FLy Italy Adsb" --msgbox "$ENDTEXT" 24 73
+    whiptail --title "Script di installazione del feed di Fly Italy Adsb" --msgbox "$ENDTEXT" 24 73
     echo -e "$ENDTEXT"
 fi
 
