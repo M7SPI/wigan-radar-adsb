@@ -313,15 +313,15 @@ fi
     RISULTATI="--results beast,connect,localhost:30104"
     RISULTATI2="--results basestation,listen,31003"
     RISULTATI3="--results beast,listen,30157"
-    RISULTATI4="--results beast,connect,localhost:30154"
+    RISULTATI4="--results beast,connect,localhost:30600"
     # inserisci --privacy per non mostrare il tuo nome nella pagina di stato mlat 
     # la posizone accurata non viene mai mostrata in qualunque caso
     PRIVACY=""
     INPUT_TYPE="dump1090"
 
-    MLATSERVER="flyitalyadsb.com:31090"
-    TARGET="--net-connector flyitalyadsb.com,30004,beast_reduce_out,flyitalyadsb.com,64004"
-    NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --net-ro-port 0 --net-sbs-port 0 --net-bi-port 30154 --net-bo-port 0 --net-ri-port 0"
+    MLATSERVER="flyitalyadsb.com:30100"
+    TARGET="--net-connector flyitalyadsb.com,30101,beast_reduce_out,flyitalyadsb.com,30102"
+    NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --net-ro-port 0 --net-sbs-port 0 --net-bi-port 30600 --net-bo-port 0 --net-ri-port 0"
 EOF
 
     echo 82
