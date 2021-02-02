@@ -6,7 +6,7 @@ INPUT_IP=$(echo $INPUT | cut -d: -f1)
 INPUT_PORT=$(echo $INPUT | cut -d: -f2)
 
 while ! nc -z "$INPUT_IP" "$INPUT_PORT" && command -v nc &>/dev/null; do
-    echo "<3>Could not connect to $INPUT_IP:$INPUT_PORT, retry in 30 seconds."
+    echo "<3>Non riesco a connettermi a $INPUT_IP:$INPUT_PORT, riprovo fra 30 secondi."
     sleep 30
 done
 
@@ -14,9 +14,9 @@ done
     --input-type "$INPUT_TYPE" --no-udp \
     --input-connect "$INPUT" \
     --server "$MLATSERVER" \
-    --user "$USER" \
-    --lat "$LATITUDE" \
-    --lon "$LONGITUDE" \
-    --alt "$ALTITUDE" \
+    --user "$UTENTE" \
+    --lat "$LATITUDINE" \
+    --lon "$LONGITUDINE" \
+    --alt "$ALTITUDINE" \
     $PRIVACY \
     $RESULTS $RESULTS1 $RESULTS2 $RESULTS3 $RESULTS4
