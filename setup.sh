@@ -333,25 +333,6 @@ EOF
     echo 88
     sleep 0.25
 
-    # Remove old method of starting the feed scripts if present from rc.local
-    # Kill the old adsbexchange scripts in case they are still running from a previous install including spawned programs
-    for name in adsbexchange-netcat_maint.sh adsbexchange-socat_maint.sh adsbexchange-mlat_maint.sh; do
-        if grep -qs -e "$name" /etc/rc.local >> $LOGFILE 2>&1; then
-            sed -i -e "/$name/d" /etc/rc.local >> $LOGFILE 2>&1
-        fi
-        PID="$(pgrep -f "$name" 2>/dev/null)"
-        if [ ! -z "$PID" ]; then
-            PIDS="$PID $(pgrep -P $PID 2>/dev/null)"
-            echo killing: $PIDS >> $LOGFILE 2>&1
-            kill -9 $PIDS >> $LOGFILE 2>&1
-        fi
-    done
-
-    # in case the mlat-client service using /etc/default/mlat-client as config is using adsbexchange as a host, disable the service
-    if grep -qs 'SERVER_HOSTPORT.*feed.adsbexchange.com' /etc/default/mlat-client &>/dev/null; then
-        systemctl disable --now mlat-client >> $LOGFILE 2>&1
-    fi
-
     echo 94
     sleep 0.25
 
