@@ -5,7 +5,7 @@ Wants=network.target
 After=network.target
 
 [Service]
-User=adsbexchange
+User=flyitalyadsb
 ExecStart=/usr/local/share/flyitalyadsb/flyitalyadsb-mlat.sh
 Type=simple
 Restart=always
