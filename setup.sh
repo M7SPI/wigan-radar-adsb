@@ -302,7 +302,7 @@ fi
     INPUT="127.0.0.1:30005"
     REDUCE_INTERVAL="0.5"
 
-    # feed name for checking MLAT sync (adsbx.org/sync)
+    # nome utente per controllare lo stato della MLAT-Multilaterazione (flyitalyadsb.com/stato-mlat)
     UTENTE="${NOSPACENAME}"
 
     LATITUDINE="$RECEIVERLATITUDE"
@@ -314,13 +314,11 @@ fi
     RISULTATI2="--results basestation,listen,31003"
     RISULTATI3="--results beast,listen,30157"
     RISULTATI4="--results beast,connect,localhost:30600"
-    # inserisci --privacy per non mostrare il tuo nome nella pagina di stato mlat 
-    # la posizone accurata non viene mai mostrata in qualunque caso
-    PRIVACY=""
+    
     INPUT_TYPE="dump1090"
-
-    MLATSERVER="flyitalyadsb.com:30100"
-    TARGET="--net-connector flyitalyadsb.com,30101,beast_reduce_out,flyitalyadsb.com,30102"
+    MLATSERVER="93.186.251.32:30100"
+    TARGET="--net-connector 93.186.251.32,30101,beast_reduce_out,93.186.251.32,30102"
+    PRIVACY=""
     NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --net-ro-port 0 --net-sbs-port 0 --net-bi-port 30600 --net-bo-port 0 --net-ri-port 0"
 EOF
 
@@ -365,11 +363,9 @@ Se sei curioso e hai abilitato la funzione MLAT, allora puoi controllare lo stat
 https://www.flyitalyadsb.com/stato-mlat
 
 Se hai incontrato qualche problema nell'installazione del feed o vorresti darci qualche suggerimento visita:
-
 https://www.flyitalyadsb.com/
 
 oppure mandaci direttamente una email all'indirizzo:
-
 installazione@flyitalyadsb.com
 "
 
