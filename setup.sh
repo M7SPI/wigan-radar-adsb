@@ -57,7 +57,7 @@ LOGDIRECTORY="$PWD/logs"
 
 BACKTITLETEXT="Script di installazione del feed di Fly Italy Adsb"
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Grazie per aver scelto di condividere i tuoi dati con Fly Italy Adsb.\n\nFlyItalyAdsb.com è la prima community italiana che tratta di ADS-B. Questo script configurerà in automatico il tuo ricevitore per condividere i dati con Fly Italy Adsb\n\nVuoi continuare con l'installazione?" 13 78
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Grazie per aver scelto di condividere i tuoi dati con Fly Italy Adsb.\n\nFlyItalyAdsb.com è la prima community italiana che tratta di ADS-B. Questo script configurerà in automatico il tuo ricevitore per condividere i dati con Fly Italy Adsb\n\nVuoi continuare con l'installazione?" 13 78
 if [[ $? != 0 ]]; then abort; fi
 
 FLYITALYADSB_=$(whiptail --backtitle "$BACKTITLETEXT" --title "Nome utente" --nocancel --inputbox "\nPer favore inserisci un nome per il tuo ricevitore (http://flyitalyadsb.com/stato-mlat)\n\nUsa solo lettere e numeri.\nEsempio: \"Giorgio34\", \"Piacenza1\", etc." 12 78 3>&1 1>&2 2>&3)
@@ -74,7 +74,7 @@ if [[ $? != 0 ]]; then abort; fi
 #((-90 <= RECEIVERLATITUDE <= 90))
 LAT_OK=0
 until [ $LAT_OK -eq 1 ]; do
-    RECEIVERLATITUDE=$(whiptail --backtitle "$BACKTITLETEXT" --title "Latitudine dell'antenna ${RECEIVERLATITUDE:-}" --nocancel --inputbox "\nInserisci la latitudine in gradi dell'antenna con 5 decimali.\n(Esempio: 9.78342)" 12 78 3>&1 1>&2 2>&3)
+    RECEIVERLATITUDE=$(whiptail --backtitle "$BACKTITLETEXT" --title "Latitudine dell'antenna ${RECEIVERLATITUDE:-}" --nocancel --inputbox "\nInserisci la latitudine in gradi dell'antenna con almeno 5 decimali.\n(Esempio: 45.36373)" 12 78 3>&1 1>&2 2>&3)
     if [[ $? != 0 ]]; then abort; fi
     LAT_OK=`awk -v LAT="$RECEIVERLATITUDE" 'BEGIN {printf (LAT<90 && LAT>-90 ? "1" : "0")}'`
 done
@@ -83,7 +83,7 @@ done
 #((-180<= RECEIVERLONGITUDE <= 180))
 LON_OK=0
 until [ $LON_OK -eq 1 ]; do
-    RECEIVERLONGITUDE=$(whiptail --backtitle "$BACKTITLETEXT" --title "Longitudine dell'antenna ${RECEIVERLONGITUDE:-}" --nocancel --inputbox "\nInserisci la longitudine in gradi dell'antenna con 5 decimali.\n(Esempio: 45.36373)" 12 78 3>&1 1>&2 2>&3)
+    RECEIVERLONGITUDE=$(whiptail --backtitle "$BACKTITLETEXT" --title "Longitudine dell'antenna ${RECEIVERLONGITUDE:-}" --nocancel --inputbox "\nInserisci la longitudine in gradi dell'antenna con almeno 5 decimali.\n(Esempio: 9.78342)" 12 78 3>&1 1>&2 2>&3)
     if [[ $? != 0 ]]; then abort; fi
     LON_OK=`awk -v LAT="$RECEIVERLONGITUDE" 'BEGIN {printf (LAT<180 && LAT>-180 ? "1" : "0")}'`
 done
@@ -114,7 +114,7 @@ RECEIVERALTITUDE="$ALT"
 #RECEIVERPORT=$(whiptail --backtitle "$BACKTITLETEXT" --title "Porta da dove lo script deve ascoltare" --nocancel --inputbox "\nCambia soltanto se sai quello che fai e hai cambiato manualmente la porta\nPer la maggior parte degli utenti va lasciato 30005." 10 78 "30005" 3>&1 1>&2 2>&3)
 
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Ora sei pronto per condividere i tuoi dati con Fly Italy Adsb.\n\nVuoi continuare?" 9 78
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Ora sei pronto per condividere i tuoi dati con Fly Italy Adsb.\n\nVuoi continuare?" 9 78
 CONTINUESETUP=$?
 if [ $CONTINUESETUP = 1 ]; then
     exit 0
