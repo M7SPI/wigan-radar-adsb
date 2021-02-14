@@ -316,10 +316,9 @@ fi
     RISULTATI4="--results beast,connect,localhost:30600"
     
     INPUT_TYPE="dump1090"
-    MLATSERVER="93.186.251.32:30100"
-    TARGET="--net-connector 93.186.251.32,30101,beast_reduce_out,93.186.251.32,30102"
-    PRIVACY=""
-    NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --net-ro-port 0 --net-sbs-port 0 --net-bi-port 30600 --net-bo-port 0 --net-ri-port 0"
+    MLATSERVER="dati.flyitalyadsb.com:30100"
+    TARGET="--net-connector dati.flyitalyadsb.com,30101,beast_reduce_out,dati.flyitalyadsb.com,30102"
+    NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --net-ro-port 0 --net-sbs-port 0 --net-bi-port 30100 --net-bo-port 0 --net-ri-port 0"
 EOF
 
     echo 82
@@ -359,14 +358,13 @@ Ora stai condividendo i tuoi dati con FLy Italy Adsb.
 Grazie ancora per condividere i tuoi dati con Fly Italy Adsb!
 
 Se sei curioso e hai abilitato la funzione MLAT, allora puoi controllare lo stato del tuo ricevitore a questo indirizzo:
-
 https://www.flyitalyadsb.com/stato-mlat
 
 Se hai incontrato qualche problema nell'installazione del feed o vorresti darci qualche suggerimento visita:
-https://www.flyitalyadsb.com/
+https://www.flyitalyadsb.com
 
 oppure mandaci direttamente una email all'indirizzo:
-installazione@flyitalyadsb.com
+mailto:installazione@flyitalyadsb.com
 "
 
 
