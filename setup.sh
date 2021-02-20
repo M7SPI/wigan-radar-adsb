@@ -196,7 +196,7 @@ fi
 
     CURRENT_DIR=$PWD
 
-    MLAT_REPO="https://github.com/adsbxchange/mlat-client.git" # TODO: do we want to fork also this repo?
+    MLAT_REPO="https://github.com/flyitalyadsb/mlat-client.git" 
     MLAT_VERSION="$(git ls-remote $MLAT_REPO 2>> $LOGFILE | grep HEAD | cut -f1)"
     if ! grep -e "$MLAT_VERSION" -qs $IPATH/mlat_version; then
         echo "Installando mlat-client in un virtual-env" >> $LOGFILE
@@ -258,7 +258,7 @@ fi
     #save working dir to come back to it
     SCRIPT_DIR=$PWD
 
-    READSB_REPO="https://github.com/adsbxchange/readsb.git"
+    READSB_REPO="https://github.com/flyitalyadsb/readsb.git"
     READSB_VERSION="$(git ls-remote $READSB_REPO 2>> $LOGFILE | grep HEAD | cut -f1)"
     if ! grep -e "$READSB_VERSION" -qs $IPATH/readsb_version; then
         echo "Compilando e installando il client del feed" >> $LOGFILE
