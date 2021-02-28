@@ -317,7 +317,7 @@ fi
     
     INPUT_TYPE="dump1090"
     MLATSERVER="dati.flyitalyadsb.com:30100"
-    TARGET="--net-connector dati.flyitalyadsb.com,30101,beast_reduce_out,dati.flyitalyadsb.com,30102"
+    TARGET="--net-connector dati.flyitalyadsb.com,4905,beast_out,dati.flyitalyadsb.com,30102"
     NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --net-ro-port 0 --net-sbs-port 0 --net-bi-port 30100 --net-bo-port 0 --net-ri-port 0"
 EOF
 
