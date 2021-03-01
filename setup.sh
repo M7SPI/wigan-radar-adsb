@@ -114,7 +114,7 @@ RECEIVERALTITUDE="$ALT"
 #RECEIVERPORT=$(whiptail --backtitle "$BACKTITLETEXT" --title "Porta da dove lo script deve ascoltare" --nocancel --inputbox "\nCambia soltanto se sai quello che fai e hai cambiato manualmente la porta\nPer la maggior parte degli utenti va lasciato 30005." 10 78 "30005" 3>&1 1>&2 2>&3)
 
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Ora sei pronto per condividere i tuoi dati con Fly Italy Adsb.\n\nProseguendo dichiari di aver letto e accettato le nostre condizioni di utilizzo accessibili a www.flyitalyadsb.com/informazioni-legali-e-privacy\n\nVuoi continuare?" 9 78
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Ora sei pronto per condividere i tuoi dati con Fly Italy Adsb.\nProseguendo dichiari di aver letto e accettato le nostre condizioni di utilizzo accessibili a www.flyitalyadsb.com/informazioni-legali-e-privacy\n\nVuoi continuare?" 9 78
 CONTINUESETUP=$?
 if [ $CONTINUESETUP = 1 ]; then
     exit 0
