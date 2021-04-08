@@ -13,7 +13,7 @@ sudo bash /tmp/flyitalyadsbfeed.sh
 
 ### Per controllare lo stato:
 
-### Mostra la configurazione MLAT
+### Mostra la configurazione 
 ```
 cat /etc/default/flyitalyadsb
 ```
@@ -21,8 +21,8 @@ cat /etc/default/flyitalyadsb
 ### Se incontri problemi, contattaci (www.flyitalyadsb.com/contattaci) e inviaci il report di questo comandi (le ultime venti righe sono sufficienti)
 
 ```
-sudo journalctl -u adsbexchange-feed --no-pager
-sudo journalctl -u adsbexchange-mlat --no-pager
+sudo journalctl -u flyitalyadsb-feed --no-pager
+sudo journalctl -u flyitalyadsb-mlat --no-pager
 ```
 
 ### Per riavviare il programma:
