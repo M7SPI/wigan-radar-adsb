@@ -140,7 +140,7 @@ RECEIVERALTITUDE="$ALT"
 #RECEIVERPORT=$(whiptail --backtitle "$BACKTITLETEXT" --title "Port where the script has to listen" --nocancel --inputbox "\nChange only if you know what you're doing and in you have manually changed the port\nFor great part of the users you have to leave 30005." 10 78 "30005" 3>&1 1>&2 2>&3)
 
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Now you're ready to share your data with Fly Italy Adsb.\nBy proceeding you declare that you have read and accepted our terms and conditions displayed at the following link https://www.flyitalyadsb.com/informazioni-legali-e-privacy/\n\nDo you want to proceed?" 10 78
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button YES --no-button NO --yesno "Now you're ready to share your data with Fly Italy Adsb.\nBy proceeding you declare that you have read and accepted our terms and conditions displayed at the following link https://www.flyitalyadsb.com/informazioni-legali-e-privacy/\n\nDo you want to proceed?" 10 78
 CONTINUESETUP=$?
 if [ $CONTINUESETUP = 1 ]; then
     exit 0
@@ -424,7 +424,7 @@ EOF
 
 } | whiptail --backtitle "$BACKTITLETEXT" --title "Setting up Fly Italy Adsb's feed"  --gauge "\nSetting up Fly Italy Adsb's feed.\nIt could take a few minutes..." 8 60 0
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Do you want to install a map with all the planes that \nyou are receiving at this moment?\nIt will be accessibile at your_ip/flyitalyadsb" 9 70 0 
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button YES --no-button NO --yesno "Do you want to install a map with all the planes that \nyou are receiving at this moment?\nIt will be accessibile at your_ip/flyitalyadsb" 9 70 0 
 INTERFACCIA=$?
 if [ $INTERFACCIA = 0 ]; then
 {   
