@@ -456,29 +456,26 @@ if [ $INTERFACCIA = 0 ]; then
     bash "$GIT/install.sh" "/run/flyitalyadsb-feed" "flyitalyadsb"
 }| whiptail --backtitle "$BACKTITLETEXT" --title "Impostando l'interfaccia di Fly Italy Adsb"  --gauge "\nImpostando l'interfaccia di Fly Italy Adsb.\nPotrebbe impiegarci qualche minuto..." 8 60 0
 fi
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Vuoi avere dei grafici statistici sul tuo ricevitore\n e una mappa con i dati che stai ricevendo accessibile ovunque?" 10 70  
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Vuoi avere dei grafici statistici sul tuo ricevitore e una mappa\ncon i dati che stai ricevendo accessibile ovunque?" 10 70  
 STATS=$?
 if [ $STATS = 0 ]; then
 {
-TMP=/tmp/graphs1090
-if ! command -v git; then
-    apt-get update
-    apt-get install -y git
-fi
-rm -rf "$TMP"
+TMP_STATS=/tmp/graphs1090
+rm -rf "$TMP_STATS"
 set -e
-git clone https://github.com/wiedehopf/graphs1090.git "$TMP"
+git clone https://github.com/wiedehopf/graphs1090.git "$TMP_STATS"
 echo "Installando Graphs1090"
-cd "$TMP"
+cd "$TMP_STATS"
 bash install.sh
-TMP=/tmp/flyitalyadsb-stats-git
-rm -rf "$TMP"
+TMP_STATS=/tmp/flyitalyadsb-stats-git
+rm -rf "$TMP_STATS"
 set -e
-git clone https://github.com/flyitalyadsb/flyitalyadsb-stats.git "$TMP"
-cd "$TMP"
+git clone https://github.com/flyitalyadsb/flyitalyadsb-stats.git "$TMP_STATS"
+cd "$TMP_STATS"
 echo "Installando il pacchetto di statistiche"
 bash install.sh
 } | whiptail --backtitle "$BACKTITLETEXT" --title "Impostando il pacchetto di statistiche di Fly Italy Adsb"  --gauge "\nImpostando il pacchetto di statistiche di Fly Italy Adsb.\nPotrebbe impiegarci qualche minuto..." 8 60 0
+fi
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Se lo desideri, lascia una email per essere contattato nel caso il tuo ricevitore dovesse andare offline per più di 3 giorni\ne per iscriverti alla nostra newsletter (Non più di una email al mese)." 10 70  
 MAIL=$?
 if [ $MAIL = 0 ]; then
@@ -542,4 +539,3 @@ fi
 
 cp $LOGFILE $IPATH/lastlog &>/dev/null
 exit 0
-
