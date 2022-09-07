@@ -460,20 +460,37 @@ whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI -
 STATS=$?
 if [ $STATS = 0 ]; then
 {
-TMP_STATS=/tmp/graphs1090
+    function getGIT() {
+        # getGIT $REPO $BRANCH $TARGET-DIR
+        if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]]; then
+            echo "getGIT wrong usage, check your script or tell the author!" 1>&2
+            return 1
+        fi
+        if ! cd "$3" &>/dev/null || ! git fetch origin "$2" >> $LOGFILE 2>&1|| ! git reset --hard FETCH_HEAD>> $LOGFILE 2>&1; then
+            if ! rm -rf "$3" || ! git clone --depth 2 --single-branch --branch "$2" "$1" "$3" >> $LOGFILE 2>&1; then
+                return 1
+            fi
+        fi
+        return 0
+    }
+TMP_STATS="/tmp/graphs1090"
 rm -rf "$TMP_STATS"
 set -e
-git clone https://github.com/wiedehopf/graphs1090.git "$TMP_STATS"
+trap 'echo "------------"; echo "[ERROR] Error in line $LINENO when executing: $BASH_COMMAND"' ERR
+BRANCH="master"
+REPO="https://github.com/wiedehopf/graphs1090"
+getGIT "$REPO" "$BRANCH" "$TMP_STATS" 
 echo "Installando Graphs1090"
 cd "$TMP_STATS"
-bash install.sh
-TMP_STATS=/tmp/flyitalyadsb-stats-git
+bash install.sh >> $LOGFILE 2>&1
+TMP_STATS="/tmp/flyitalyadsb-stats-git"
+REPO="https://github.com/flyitalyadsb/flyitalyadsb-stats"
 rm -rf "$TMP_STATS"
 set -e
-git clone https://github.com/flyitalyadsb/flyitalyadsb-stats.git "$TMP_STATS"
+getGIT "$REPO" "$BRANCH" "$TMP_STATS" 
 cd "$TMP_STATS"
 echo "Installando il pacchetto di statistiche"
-bash install.sh
+bash install.sh >> $LOGFILE 2>&1
 } | whiptail --backtitle "$BACKTITLETEXT" --title "Impostando il pacchetto di statistiche di Fly Italy Adsb"  --gauge "\nImpostando il pacchetto di statistiche di Fly Italy Adsb.\nPotrebbe impiegarci qualche minuto..." 8 60 0
 fi
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Se lo desideri, lascia una email per essere contattato nel caso il tuo ricevitore dovesse andare offline per più di 3 giorni\ne per iscriverti alla nostra newsletter (Non più di una email al mese)." 10 70  
@@ -497,8 +514,22 @@ https://www.flyitalyadsb.com
 oppure mandaci direttamente una email all'indirizzo:
 mailto:installazione@flyitalyadsb.com
 "
-
-
+if [ $STATS = 0 ]; then
+{
+UUID_FILE="/boot/flyitalyadsb-uuid"
+if ! [[ -f "$UUID_FILE" ]]; then
+    UUID_FILE="/usr/local/share/flyitalyadsb/flyitalyadsb-uuid"
+fi
+SED=$(echo "$a" |sed -e 's$^$https://statistiche.flyitalyadsb.com/login?uuid=$' "$UUID_FILE")
+ENDTEXT+="
+---------------------
+Per vedere i grafici statistici e la mappa in tempo reale accessibile da remoto puoi andare alla pagina:
+${SED}&user=$FLYITALYADSB_
+---------------------
+Puoi recuperare questo link eseguendo: flyitalyadsb-showurl
+"
+}
+fi
 if ! nc -z 127.0.0.1 30005 && command -v nc &>/dev/null; then
     ENDTEXT2="
 ---------------------
