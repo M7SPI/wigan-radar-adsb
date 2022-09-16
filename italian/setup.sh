@@ -560,6 +560,7 @@ https://www.flyitalyadsb.com/come-costruire-un-ricevitore-ads-b/#installazione-d
 ---------------------
 "
     fi
+    sleep 3
     whiptail --title "Script di installazione del feed di Fly Italy Adsb" --msgbox "$ENDTEXT2" 27 73
     echo -e "$ENDTEXT2"
 else
