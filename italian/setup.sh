@@ -145,20 +145,19 @@ if [ $CONTINUESETUP = 1 ]; then
     exit 0
 fi
 
+
+# Make a log directory if it does not already exist.
+if [ ! -d "$LOGDIRECTORY" ]; then
+    mkdir $LOGDIRECTORY
+fi
+LOGFILE="$LOGDIRECTORY/image_setup-$(date +%F_%R)"
+touch $LOGFILE
+mkdir -p $IPATH >> $LOGFILE  2>&1
+cp uninstall.sh $IPATH >> $LOGFILE  2>&1
+
+
 ## BEGIN SETUP
-
 {
-
-    # Make a log directory if it does not already exist.
-    if [ ! -d "$LOGDIRECTORY" ]; then
-        mkdir $LOGDIRECTORY
-    fi
-    LOGFILE="$LOGDIRECTORY/image_setup-$(date +%F_%R)"
-    touch $LOGFILE
-
-    mkdir -p $IPATH >> $LOGFILE  2>&1
-    cp uninstall.sh $IPATH >> $LOGFILE  2>&1
-
     if ! id -u flyitalyadsb &>/dev/null
     then
         adduser --system --home $IPATH --no-create-home --quiet flyitalyadsb >> $LOGFILE  2>&1
