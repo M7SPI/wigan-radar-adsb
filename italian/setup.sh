@@ -136,9 +136,6 @@ fi
 
 RECEIVERALTITUDE="$ALT"
 
-#RECEIVERPORT=$(whiptail --backtitle "$BACKTITLETEXT" --title "Porta da dove lo script deve ascoltare" --nocancel --inputbox "\nCambia soltanto se sai quello che fai e hai cambiato manualmente la porta\nPer la maggior parte degli utenti va lasciato 30005." 10 78 "30005" 3>&1 1>&2 2>&3)
-
-
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Ora sei pronto per condividere i tuoi dati con Fly Italy Adsb.\nProseguendo dichiari di aver letto e accettato le nostre condizioni di utilizzo accessibili a www.flyitalyadsb.com/informazioni-legali-e-privacy\n\nVuoi continuare?" 9 78
 CONTINUESETUP=$?
 if [ $CONTINUESETUP = 1 ]; then
@@ -337,7 +334,7 @@ cp uninstall.sh $IPATH >> $LOGFILE  2>&1
     
     INPUT_TYPE="dump1090"
     MLATSERVER="dati.flyitalyadsb.com:30100"
-    TARGET="--net-connector dati.flyitalyadsb.com,4905,beast_out,dati.flyitalyadsb.com,30102"
+    TARGET="--net-connector dati.flyitalyadsb.com,4905,beast_reduce_plus_out,dati.flyitalyadsb.com,30102"
     NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --net-ro-port 0 --net-sbs-port 0 --net-bi-port 30100 --net-bo-port 0 --net-ri-port 0"
 EOF
 
@@ -452,7 +449,7 @@ if [ $INTERFACCIA = 0 ]; then
     BRANCH="master"
     GIT="/usr/local/share/tar1090/git"
     getGIT "$REPO" "$BRANCH" "$GIT" 
-    bash "$GIT/install.sh" "/run/flyitalyadsb-feed" "flyitalyadsb"
+    bash "$GIT/install.sh" "/run/flyitalyadsb-feed" "flyitalyadsb" >> $LOGFILE 2>&1
 }| whiptail --backtitle "$BACKTITLETEXT" --title "Impostando l'interfaccia di Fly Italy Adsb"  --gauge "\nImpostando l'interfaccia di Fly Italy Adsb.\nPotrebbe impiegarci qualche minuto..." 8 60 0
 fi
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Vuoi avere dei grafici statistici sul tuo ricevitore e una mappa\ncon i dati che stai ricevendo accessibile ovunque?" 10 70  

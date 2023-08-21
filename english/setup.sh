@@ -137,7 +137,6 @@ fi
 
 RECEIVERALTITUDE="$ALT"
 
-#RECEIVERPORT=$(whiptail --backtitle "$BACKTITLETEXT" --title "Port where the script has to listen" --nocancel --inputbox "\nChange only if you know what you're doing and in you have manually changed the port\nFor great part of the users you have to leave 30005." 10 78 "30005" 3>&1 1>&2 2>&3)
 
 
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button YES --no-button NO --yesno "Now you're ready to share your data with Fly Italy Adsb.\nBy proceeding you declare that you have read and accepted our terms and conditions displayed at the following link https://www.flyitalyadsb.com/informazioni-legali-e-privacy/\n\nDo you want to proceed?" 10 78
@@ -338,7 +337,7 @@ cp uninstall.sh $IPATH >> $LOGFILE  2>&1
     
     INPUT_TYPE="dump1090"
     MLATSERVER="dati.flyitalyadsb.com:30100"
-    TARGET="--net-connector dati.flyitalyadsb.com,4905,beast_out,dati.flyitalyadsb.com,30102"
+    TARGET="--net-connector dati.flyitalyadsb.com,4905,beast_reduce_plus_out,dati.flyitalyadsb.com,30102"
     NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --net-ro-port 0 --net-sbs-port 0 --net-bi-port 30100 --net-bo-port 0 --net-ri-port 0"
 EOF
 

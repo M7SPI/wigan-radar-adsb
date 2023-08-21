@@ -18,4 +18,5 @@ done
     --net-beast-reduce-interval $REDUCE_INTERVAL \
     $TARGET $NET_OPTIONS $SOURCE \
     --lat "$LATITUDINE" --lon "$LONGITUDINE" \
-    --db-file none
+    --db-file none \
+    --uuid-file /boot/flyitalyadsb-uuid
