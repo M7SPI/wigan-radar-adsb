@@ -60,6 +60,20 @@ function abort() {
     exit 1
 }
 
+function getGIT() {
+    # getGIT $REPO $BRANCH $TARGET-DIR
+    if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]]; then
+        echo "getGIT wrong usage, check your script or tell the author!" 1>&2
+        return 1
+    fi
+    if ! cd "$3" &>/dev/null || ! git fetch origin "$2" >> $LOGFILE 2>&1|| ! git reset --hard FETCH_HEAD>> $LOGFILE 2>&1; then
+        if ! rm -rf "$3" || ! git clone --depth 2 --single-branch --branch "$2" "$1" "$3" >> $LOGFILE 2>&1; then
+            return 1
+        fi
+    fi
+    return 0
+}
+
 ## CHECK IF SCRIPT WAS RAN USING SUDO
 
 if [ "$(id -u)" != "0" ]; then
@@ -425,75 +439,52 @@ EOF
 
 } | whiptail --backtitle "$BACKTITLETEXT" --title "Impostando il feed di Fly Italy Adsb"  --gauge "\nImpostando il feed di Fly Italy Adsb.\nPotrebbe impiegarci qualche minuto..." 8 60 0
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Vuoi installare una mappa in cui sono visibili gli aerei che \nstai ricevendo in questo momento?\nSarà accessibile in locale a tuo_ip/flyitalyadsb" 9 70 0 
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Vuoi installare una mappa in cui sono visibili gli aerei che \nstai ricevendo in questo momento?\nSarà accessibile in locale a tuo_ip/flyitalyadsb" 9 70 0
 INTERFACCIA=$?
 if [ $INTERFACCIA = 0 ]; then
-{   
+{
     set -e
     trap 'echo "------------"; echo "[ERROR] Error in line $LINENO when executing: $BASH_COMMAND"' ERR
 
-    function getGIT() {
-        # getGIT $REPO $BRANCH $TARGET-DIR
-        if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]]; then
-            echo "getGIT wrong usage, check your script or tell the author!" 1>&2
-            return 1
-        fi
-        if ! cd "$3" &>/dev/null || ! git fetch origin "$2" >> $LOGFILE 2>&1|| ! git reset --hard FETCH_HEAD>> $LOGFILE 2>&1; then
-            if ! rm -rf "$3" || ! git clone --depth 2 --single-branch --branch "$2" "$1" "$3" >> $LOGFILE 2>&1; then
-                return 1
-            fi
-        fi
-        return 0
-    }
+
     REPO="https://github.com/wiedehopf/tar1090"
     BRANCH="master"
     GIT="/usr/local/share/tar1090/git"
-    getGIT "$REPO" "$BRANCH" "$GIT" 
+    getGIT "$REPO" "$BRANCH" "$GIT"
     bash "$GIT/install.sh" "/run/flyitalyadsb-feed" "flyitalyadsb" >> $LOGFILE 2>&1
 }| whiptail --backtitle "$BACKTITLETEXT" --title "Impostando l'interfaccia di Fly Italy Adsb"  --gauge "\nImpostando l'interfaccia di Fly Italy Adsb.\nPotrebbe impiegarci qualche minuto..." 8 60 0
 fi
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Vuoi avere dei grafici statistici sul tuo ricevitore e una mappa\ncon i dati che stai ricevendo accessibile ovunque?" 10 70  
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Vuoi avere dei grafici statistici sul tuo ricevitore e una mappa\ncon i dati che stai ricevendo accessibile ovunque?" 10 70
 STATS=$?
 if [ $STATS = 0 ]; then
 {
-    function getGIT() {
-        # getGIT $REPO $BRANCH $TARGET-DIR
-        if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]]; then
-            echo "getGIT wrong usage, check your script or tell the author!" 1>&2
-            return 1
-        fi
-        if ! cd "$3" &>/dev/null || ! git fetch origin "$2" >> $LOGFILE 2>&1|| ! git reset --hard FETCH_HEAD>> $LOGFILE 2>&1; then
-            if ! rm -rf "$3" || ! git clone --depth 2 --single-branch --branch "$2" "$1" "$3" >> $LOGFILE 2>&1; then
-                return 1
-            fi
-        fi
-        return 0
-    }
 TMP_STATS="/tmp/graphs1090"
 rm -rf "$TMP_STATS"
 set -e
 trap 'echo "------------"; echo "[ERROR] Error in line $LINENO when executing: $BASH_COMMAND"' ERR
 BRANCH="master"
 REPO="https://github.com/wiedehopf/graphs1090"
-getGIT "$REPO" "$BRANCH" "$TMP_STATS" 
-echo "Installando Graphs1090"
+getGIT "$REPO" "$BRANCH" "$TMP_STATS"
+echo 25
 cd "$TMP_STATS"
 bash install.sh >> $LOGFILE 2>&1
+echo 50
 TMP_STATS="/tmp/flyitalyadsb-stats-git"
 REPO="https://github.com/flyitalyadsb/flyitalyadsb-stats"
 rm -rf "$TMP_STATS"
 set -e
-getGIT "$REPO" "$BRANCH" "$TMP_STATS" 
+getGIT "$REPO" "$BRANCH" "$TMP_STATS"
 cd "$TMP_STATS"
-echo "Installando il pacchetto di statistiche"
+echo 75
 bash install.sh >> $LOGFILE 2>&1
+echo 90
 } | whiptail --backtitle "$BACKTITLETEXT" --title "Impostando il pacchetto di statistiche di Fly Italy Adsb"  --gauge "\nImpostando il pacchetto di statistiche di Fly Italy Adsb.\nPotrebbe impiegarci qualche minuto..." 8 60 0
 fi
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Se lo desideri, lascia una email per essere contattato nel caso il tuo ricevitore dovesse andare offline per più di 3 giorni\ne per iscriverti alla nostra newsletter (Non più di una email al mese)." 10 70  
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Se lo desideri, lascia una email per essere contattato nel caso il tuo ricevitore dovesse andare offline per più di 3 giorni\ne per iscriverti alla nostra newsletter (Non più di una email al mese)." 10 70
 MAIL=$?
 if [ $MAIL = 0 ]; then
     email=$(whiptail --backtitle "$BACKTITLETEXT" --title "Email"  --inputbox "\nInserisci la tua email" 8 60 3>&1 1>&2 2>&3)
-    curl -d "mail=$email" https://flyitalyadsb.com/newsletter.php 
+    curl -d "mail=$email" https://flyitalyadsb.com/newsletter.php
 fi
 
 
@@ -526,8 +517,9 @@ Puoi recuperare questo link eseguendo: flyitalyadsb-showurl
 "
 }
 fi
+
 if ! nc -z 127.0.0.1 30005 && command -v nc &>/dev/null; then
-    ENDTEXT2="
+ENDTEXT2="
 ---------------------
 Nessun dato disponibile sulla porta 30005!
 ---------------------
@@ -537,8 +529,8 @@ Se invece il feed deve ricevere i dati da un altra porta/ip vai a questo link:
 https://flyitalyadsb.com/configurazione-script
 --------------------
 "
-    if [ -f /etc/fr24feed.ini ] || [ -f /etc/rb24.ini ]; then
-        ENDTEXT2+="
+if [ -f /etc/fr24feed.ini ] || [ -f /etc/rb24.ini ]; then
+ENDTEXT2+="
 Sembra che stai usando FR24 o BR24
 Questo significa che devi abilitare la trasmissione dei dati sulla porta 30005! Per farlo:
 - vai alla pagina: ip_del_tuo_raspberry:8754/settings.
@@ -548,14 +540,14 @@ Questo significa che devi abilitare la trasmissione dei dati sulla porta 30005! 
 Se non ti dovesse ancora funzionare, scrivici a mailto:installazione@flyitalyadsb.com
 ---------------------
 "
-    else
-        ENDTEXT2+="
+else
+ENDTEXT2+="
 Se hai connesso a questo dispositivo una chiavetta SDR ma non hai 
 ancora installato il decoder visita questa pagina:
 https://www.flyitalyadsb.com/come-costruire-un-ricevitore-ads-b/#installazione-dump1090-fa
 ---------------------
 "
-    fi
+fi
     sleep 3
     whiptail --title "Script di installazione del feed di Fly Italy Adsb" --msgbox "$ENDTEXT2" 27 73
     echo -e "$ENDTEXT2"
