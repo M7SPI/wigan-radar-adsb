@@ -61,6 +61,20 @@ function abort() {
     exit 1
 }
 
+function getGIT() {
+    # getGIT $REPO $BRANCH $TARGET-DIR
+    if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]]; then
+        echo "getGIT wrong usage, check your script or tell the author!" 1>&2
+        return 1
+    fi
+    if ! cd "$3" &>/dev/null || ! git fetch origin "$2" >> $LOGFILE 2>&1|| ! git reset --hard FETCH_HEAD>> $LOGFILE 2>&1; then
+        if ! rm -rf "$3" || ! git clone --depth 2 --single-branch --branch "$2" "$1" "$3" >> $LOGFILE 2>&1; then
+            return 1
+        fi
+    fi
+    return 0
+}
+
 ## CHECK IF SCRIPT WAS RAN USING SUDO
 
 if [ "$(id -u)" != "0" ]; then
@@ -429,19 +443,7 @@ if [ $INTERFACCIA = 0 ]; then
     set -e
     trap 'echo "------------"; echo "[ERROR] Error in line $LINENO when executing: $BASH_COMMAND"' ERR
 
-    function getGIT() {
-        # getGIT $REPO $BRANCH $TARGET-DIR
-        if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]]; then
-            echo "getGIT wrong usage, check your script or tell the author!" 1>&2
-            return 1
-        fi
-        if ! cd "$3" &>/dev/null || ! git fetch origin "$2" >> $LOGFILE 2>&1|| ! git reset --hard FETCH_HEAD>> $LOGFILE 2>&1; then
-            if ! rm -rf "$3" || ! git clone --depth 2 --single-branch --branch "$2" "$1" "$3" >> $LOGFILE 2>&1; then
-                return 1
-            fi
-        fi
-        return 0
-    }
+
     REPO="https://github.com/wiedehopf/tar1090"
     BRANCH="master"
     GIT="/usr/local/share/tar1090/git"
