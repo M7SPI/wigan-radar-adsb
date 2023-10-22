@@ -19,4 +19,4 @@ done
     $TARGET $NET_OPTIONS $SOURCE \
     --lat "$LATITUDINE" --lon "$LONGITUDINE" \
     --db-file none \
-    --uuid-file /boot/flyitalyadsb-uuid
+    --uuid-file /usr/local/share/flyitalyadsb/flyitalyadsb-uuid
