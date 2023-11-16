@@ -452,11 +452,13 @@ if [ $INTERFACCIA = 0 ]; then
 }| whiptail --backtitle "$BACKTITLETEXT" --title "Setting up Fly Italy Adsb's interface"  --gauge "\nSetting up Fly Italy Adsb's interface.\nIt could take a few minutes..." 8 60 0
 fi
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "If you wish, you can leave us an email to be contacted if your receiver should be offline for more than 3 days.\n and to subscribe to ours newsletter (Not more than a mail a month)." 10 70  
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "If you want subscribe to ours newsletter (Not more than a mail a month)." 10 70
 MAIL=$?
 if [ $MAIL = 0 ]; then
+    set -e
+    trap 'echo "------------"; echo "[ERROR] Error in line $LINENO when executing: $BASH_COMMAND"' ERR
     email=$(whiptail --backtitle "$BACKTITLETEXT" --title "Email"  --inputbox "\nInsert your email" 8 60 3>&1 1>&2 2>&3)
-    curl -d "mail=$email" https://flyitalyadsb.com/newsletter.php 
+    curl -d "mail=$email" https://flyitalyadsb.com/newsletter.php  >> $LOGFILE 2>&1
 fi
 
 

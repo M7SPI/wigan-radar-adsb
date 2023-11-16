@@ -445,8 +445,6 @@ if [ $INTERFACCIA = 0 ]; then
 {
     set -e
     trap 'echo "------------"; echo "[ERROR] Error in line $LINENO when executing: $BASH_COMMAND"' ERR
-
-
     REPO="https://github.com/wiedehopf/tar1090"
     BRANCH="master"
     GIT="/usr/local/share/tar1090/git"
@@ -481,11 +479,13 @@ bash install.sh >> $LOGFILE 2>&1
 echo 90
 } | whiptail --backtitle "$BACKTITLETEXT" --title "Impostando il pacchetto di statistiche di Fly Italy Adsb"  --gauge "\nImpostando il pacchetto di statistiche di Fly Italy Adsb.\nPotrebbe impiegarci qualche minuto..." 8 60 0
 fi
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Se lo desideri, lascia una email per essere contattato nel caso il tuo ricevitore dovesse andare offline per più di 3 giorni\ne per iscriverti alla nostra newsletter (Non più di una email al mese)." 10 70
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "Se lo desideri, lascia una email per iscriverti alla nostra newsletter (Non più di una email al mese)." 10 70
 MAIL=$?
-if [ $MAIL = 0 ]; then
+if [ $MAIL = 0 ];   then
+    set -e
+    trap 'echo "------------"; echo "[ERROR] Error in line $LINENO when executing: $BASH_COMMAND"' ERR
     email=$(whiptail --backtitle "$BACKTITLETEXT" --title "Email"  --inputbox "\nInserisci la tua email" 8 60 3>&1 1>&2 2>&3)
-    curl -d "mail=$email" https://flyitalyadsb.com/newsletter.php
+    curl -d "mail=$email" https://flyitalyadsb.com/newsletter.php >> $LOGFILE 2>&1
 fi
 
 
