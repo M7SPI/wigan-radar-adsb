@@ -4,7 +4,7 @@
 #####################################################################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                                   #
-# Copyright (c) 2022 Fly Italy Adsb                                                 #
+# Copyright (c) 2023 Fly Italy Adsb                                                 #
 #                                                                                   #
 # Permission is hereby granted, free of charge, to any person obtaining a copy      #
 # of this software and associated documentation files (the "Software"), to deal     #
@@ -196,7 +196,7 @@ cp uninstall.sh $IPATH >> $LOGFILE  2>&1
     APT_UPDATED="false"
 
     if command -v apt &>/dev/null; then
-        required_packages+="git curl build-essential debhelper pkg-config libzstd-dev librtlsdr0 librtlsdr-dev  libzstd1 libusb-1.0-0-dev  librtlsdr-dev  python3-dev socat python3-venv libncurses-dev netcat uuid-runtime zlib1g-dev zlib1g"
+        required_packages+="git curl build-essential debhelper pkg-config libzstd-dev librtlsdr0 librtlsdr-dev  libzstd1 libusb-1.0-0-dev  librtlsdr-dev  python3-dev socat python3-venv libncurses-dev netcat-openbsd uuid-runtime zlib1g-dev zlib1g"
         for package in $required_packages; do
             if [ $(dpkg-query -W -f='${STATUS}' $package 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
 
@@ -462,7 +462,7 @@ TMP_STATS="/tmp/graphs1090"
 rm -rf "$TMP_STATS"
 set -e
 trap 'echo "------------"; echo "[ERROR] Error in line $LINENO when executing: $BASH_COMMAND"' ERR
-BRANCH="master"
+BRANCH="main"
 REPO="https://github.com/wiedehopf/graphs1090"
 getGIT "$REPO" "$BRANCH" "$TMP_STATS"
 echo 25
