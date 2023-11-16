@@ -462,7 +462,7 @@ TMP_STATS="/tmp/graphs1090"
 rm -rf "$TMP_STATS"
 set -e
 trap 'echo "------------"; echo "[ERROR] Error in line $LINENO when executing: $BASH_COMMAND"' ERR
-BRANCH="master"
+BRANCH="main"
 REPO="https://github.com/wiedehopf/graphs1090"
 getGIT "$REPO" "$BRANCH" "$TMP_STATS"
 echo 25
