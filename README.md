@@ -1,47 +1,46 @@
-# Installazione dello script di Fly Italy Adsb 
+# Fly Italy Adsb Script Installation
 
-Questo script ti permette di installare il feed per condividere i tuoi dati con Fly Italy Adsb
+This script allows you to install the feed to share your data with Fly Italy Adsb.
 
-### Come scaricare e utilizzare lo script?
+### How to download and use the script?
 
-Usa questi comandi:
+Use these commands:
 
 ```
 wget -O /tmp/flyitalyadsbfeed.sh https://raw.githubusercontent.com/flyitalyadsb/fly-italy-adsb/master/install.sh
 sudo bash /tmp/flyitalyadsbfeed.sh
 ```
 
-### Per controllare lo stato:
+### To check the status:
 
-### Mostra la configurazione 
+### Show configuration 
+
 ```
 cat /etc/default/flyitalyadsb
 ```
 
-### Se incontri problemi, contattaci (www.flyitalyadsb.com/contattaci) e inviaci il report di questo comandi (le ultime venti righe sono sufficienti)
+### If you encounter any issues, contact us (www.flyitalyadsb.com/contattaci) and send us the report of these commands (the last twenty lines are sufficient)
 
 ```
 sudo journalctl -u flyitalyadsb-feed --no-pager
 sudo journalctl -u flyitalyadsb-mlat --no-pager
 ```
 
-### Per riavviare il programma:
+### To restart the script:
 
 ```
 sudo systemctl restart flyitalyadsb-feed
 sudo systemctl restart flyitalyadsb-mlat
 ```
 
-
-### Stato del Systemd
+### Systemd Status
 
 ```
 sudo systemctl status flyitalyadsb-mlat
 sudo systemctl status flyitalyadsb-feed
 ```
 
-
-### Per rimuovere/disabilitare lo script:
+### To remove/disable the script:
 
 ```
 sudo bash /usr/local/share/flyitalyadsb/uninstall.sh
