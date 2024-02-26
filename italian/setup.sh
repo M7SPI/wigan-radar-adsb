@@ -495,7 +495,7 @@ ENDTEXT="
 L'installazione è stata completata. Ora stai condividendo i tuoi dati con Fly Italy Adsb.
 Puoi controllare lo stato del tuo ricevitore a questa pagina:
 ---------------------
-https://www.flyitalyadsb.com/stato-mlat/${FLYITALYADSB_}
+https://www.flyitalyadsb.com/stato-mlat/?peer_id=${FLYITALYADSB_}
 ---------------------
 Se hai incontrato qualche problema nell'installazione del feed o vorresti darci qualche suggerimento visita:
 https://www.flyitalyadsb.com
