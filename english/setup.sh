@@ -468,7 +468,7 @@ ENDTEXT="
 You completed the installation. You are now sharing your data with Fly Italy Adsb.
 You can check the status of your receiver at this page:
 ---------------------
-https://www.flyitalyadsb.com/stato-mlat/${FLYITALYADSB_}
+https://www.flyitalyadsb.com/stato-mlat/?peer_id=${FLYITALYADSB_}
 ---------------------
 If you have any problem regarding the installation of the feed or if you'd like to give us some advice, visit the following website: 
 https://www.flyitalyadsb.com
