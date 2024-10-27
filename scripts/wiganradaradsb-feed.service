@@ -1,19 +1,19 @@
 
 [Unit]
-Description=flyitalyadsb-feed
+Description=wiganradaradsb-feed
 Wants=network.target
 After=network.target
 
 [Service]
 User=flyitalyadsb
 RuntimeDirectory=flyitalyadsb-feed
-ExecStart=/usr/local/share/flyitalyadsb/flyitalyadsb-feed.sh
+ExecStart=/usr/local/share/wiganradaradsb/wiganradaradsb-feed.sh
 Type=simple
 Restart=always
 RestartSec=30
 StartLimitInterval=1
 StartLimitBurst=100
-SyslogIdentifier=flyitalyadsb-feed
+SyslogIdentifier=wiganradaradsb-feed
 Nice=-1
 
 [Install]
