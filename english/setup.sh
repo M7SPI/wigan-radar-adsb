@@ -336,7 +336,7 @@ cp uninstall.sh $IPATH >> $LOGFILE  2>&1
     cp $PWD/scripts/wiganradaradsb-feed.sh $IPATH >> $LOGFILE 2>&1
     cp $PWD/scripts/wiganradaradsb-feed.service /lib/systemd/system >> $LOGFILE 2>&1
 
-    tee /etc/default/flyitalyadsb > /dev/null 2>> $LOGFILE <<EOF
+    tee /etc/default/wiganradaradsb > /dev/null 2>> $LOGFILE <<EOF
     INPUT="127.0.0.1:30005"
     REDUCE_INTERVAL="0.5"
     # user name for controlling the status of the MLAT-Multilateration  (wiganradar.co.uk/status-mlat)
@@ -350,16 +350,16 @@ cp uninstall.sh $IPATH >> $LOGFILE  2>&1
     RISULTATI4="--results beast,connect,localhost:30600"
     
     INPUT_TYPE="dump1090"
-    MLATSERVER="dati.flyitalyadsb.com:30100"
-    TARGET="--net-connector dati.flyitalyadsb.com,4905,beast_reduce_plus_out,dati.flyitalyadsb.com,30102"
+    MLATSERVER="data.wiganradar.co,uk:30100"
+    TARGET="--net-connector data.wiganradar.co.uk,4905,beast_reduce_plus_out,data.wiganradar.co.uk,30102"
     NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --net-ro-port 0 --net-sbs-port 0 --net-bi-port 30100 --net-bo-port 0 --net-ri-port 0"
 EOF
 
     echo 82
     sleep 0.25
 
-    # Enable flyitalyadsb-feed service
-    systemctl enable flyitalyadsb-feed  >> $LOGFILE 2>&1
+    # Enable wiganradaradsb-feed service
+    systemctl enable wiganradaradsb-feed  >> $LOGFILE 2>&1
 
     echo 88
     sleep 0.25
@@ -367,20 +367,20 @@ EOF
     echo 94
     sleep 0.25
 
-    # Start or restart flyitalyadsb-feed service
-    systemctl restart flyitalyadsb-feed  >> $LOGFILE 2>&1
+    # Start or restart wiganradaradsb-feed service
+    systemctl restart wiganradaradsb-feed  >> $LOGFILE 2>&1
 
     echo 96
 
-    # Start or restart flyitalyadsb-mlat service
-    systemctl restart flyitalyadsb-mlat >> $LOGFILE 2>&1
+    # Start or restart wiganradaradsb-mlat service
+    systemctl restart wiganradaradsb-mlat >> $LOGFILE 2>&1
 
     echo 100
     sleep 0.25
 
-    MLAT_GIT_DIR="/usr/local/share/flyitalyadsb/mlat-client-git"
+    MLAT_GIT_DIR="/usr/local/share/wiganradaradsb/mlat-client-git"
 
-    UPDATER_SYSTEMD_SERVICE_PATH="/lib/systemd/system/flyitalyadsb-mlat-updater.service"
+    UPDATER_SYSTEMD_SERVICE_PATH="/lib/systemd/system/wiganradaradsb-mlat-updater.service"
     read -r -d '' UPDATER_SYSTEMD_SERVICE <<-'EOF'
     [Unit]
     Description=Keep mlat-client up to date
@@ -388,15 +388,15 @@ EOF
     [Service]
     Type=simple
     User=root
-    WorkingDirectory=/usr/local/share/flyitalyadsb/mlat-client-git
-    ExecStart=/usr/local/share/flyitalyadsb/mlat-client-git/scripts/update.sh
+    WorkingDirectory=/usr/local/share/wiganradaradsb/mlat-client-git
+    ExecStart=/usr/local/share/wiganradaradsb/mlat-client-git/scripts/update.sh
     [Install]
     WantedBy=timers.target
 EOF
 
     ###
 
-    UPDATER_SYSTEMD_TIMER_PATH="/lib/systemd/system/flyitalyadsb-mlat-updater.timer"
+    UPDATER_SYSTEMD_TIMER_PATH="/lib/systemd/system/fwiganradaradsb-mlat-updater.timer"
     read -r -d '' UPDATER_SYSTEMD_TIMER <<-'EOF'
     [Unit]
     Description=Keep mlat-client up to date
@@ -434,7 +434,7 @@ EOF
 
     echo "Updater correctly installed" >> $LOGFILE 2>&1
 
-} | whiptail --backtitle "$BACKTITLETEXT" --title "Setting up Fly Italy Adsb's feed"  --gauge "\nSetting up Fly Italy Adsb's feed.\nIt could take a few minutes..." 8 60 0
+} | whiptail --backtitle "$BACKTITLETEXT" --title "Setting up Wigan Radars Adsb's feed"  --gauge "\nSetting up Wigan Radars Adsb's feed.\nIt could take a few minutes..." 8 60 0
 
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button YES --no-button NO --yesno "Do you want to install a map with all the planes that \nyou are receiving at this moment?\nIt will be accessibile at your_ip/flyitalyadsb" 9 70 0 
 INTERFACCIA=$?
@@ -448,8 +448,8 @@ if [ $INTERFACCIA = 0 ]; then
     BRANCH="master"
     GIT="/usr/local/share/tar1090/git"
     getGIT "$REPO" "$BRANCH" "$GIT" 
-    bash "$GIT/install.sh" "/run/flyitalyadsb-feed" "flyitalyadsb"
-}| whiptail --backtitle "$BACKTITLETEXT" --title "Setting up Fly Italy Adsb's interface"  --gauge "\nSetting up Fly Italy Adsb's interface.\nIt could take a few minutes..." 8 60 0
+    bash "$GIT/install.sh" "/run/wiganradaradsb-feed" "wiganradaradsb"
+}| whiptail --backtitle "$BACKTITLETEXT" --title "Setting up Wigan Radars Adsb's interface"  --gauge "\nSetting up Wigan Radars Adsb's interface.\nIt could take a few minutes..." 8 60 0
 fi
 
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button SI --no-button NO --yesno "If you want subscribe to ours newsletter (Not more than a mail a month)." 10 70
@@ -468,12 +468,12 @@ ENDTEXT="
 You completed the installation. You are now sharing your data with Fly Italy Adsb.
 You can check the status of your receiver at this page:
 ---------------------
-https://www.flyitalyadsb.com/stato-mlat/?peer_id=${FLYITALYADSB_}
+https://www.wiganradar.co.uk/status-mlat/?peer_id=${WIGANRADARADSB_}
 ---------------------
 If you have any problem regarding the installation of the feed or if you'd like to give us some advice, visit the following website: 
-https://www.flyitalyadsb.com
+https://www.wiganradar.co.uk
 or send us an email directly at this address: 
-mail to:installazione@flyitalyadsb.com
+mail to:support@wiganradar.co.uk
 "
 
 
@@ -483,9 +483,7 @@ if ! nc -z 127.0.0.1 30005 && command -v nc &>/dev/null; then
 No available data on the 30005 port! 
 ---------------------
 If you haven't installed any decoder visit this page: 
-https://www.flyitalyadsb.com/come-costruire-un-ricevitore-ads-b/#installazione-dump1090-fa
-If the feed receives the data from another port/ip go to this link: 
-https://flyitalyadsb.com/configurazione-script
+
 --------------------
 "
     if [ -f /etc/fr24feed.ini ] || [ -f /etc/rb24.ini ]; then
@@ -496,7 +494,7 @@ This means that you have to enable the data trasmission on the 30005 port! To do
 - in \"process arguments\" add \" --net\" 
 - set NO in RAW DATA, SBS FEED and DECODED DATA.
 --Press \"Save\" and then \"restart\" 
-If it still wont be working, write us to the following email:installazione@flyitalyadsb.com
+If it still wont be working, write us to the following email:support@wiganradar.co.uk
 ---------------------
 "
     else
@@ -507,11 +505,11 @@ https://www.flyitalyadsb.com/come-costruire-un-ricevitore-ads-b/#installazione-d
 ---------------------
 "
     fi
-    whiptail --title "Installation script of Fly Italy Adsb's feed" --msgbox "$ENDTEXT2" 27 73
+    whiptail --title "Installation script of Wigan Radars Adsb's feed" --msgbox "$ENDTEXT2" 27 73
     echo -e "$ENDTEXT2"
 else
     # Display the thank you message box.
-    whiptail --title "Installation script of Fly Italy Adsb's feed" --msgbox "$ENDTEXT" 27 73 
+    whiptail --title "Installation script of Wigan Radars Adsb's feed" --msgbox "$ENDTEXT" 27 73 
     echo -e "$ENDTEXT"
 fi
 
