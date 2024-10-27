@@ -6,13 +6,13 @@ After=network.target
 
 [Service]
 User=flyitalyadsb
-ExecStart=/usr/local/share/flyitalyadsb/flyitalyadsb-mlat.sh
+ExecStart=/usr/local/share/wiganradaradsb/wiganradaradsb-mlat.sh
 Type=simple
 Restart=always
 RestartSec=30
 StartLimitInterval=1
 StartLimitBurst=100
-SyslogIdentifier=flyitalyadsb-mlat
+SyslogIdentifier=wiganradaradsb-mlat
 Nice=-1
 
 [Install]
