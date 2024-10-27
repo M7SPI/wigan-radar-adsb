@@ -1,14 +1,14 @@
-# Fly Italy Adsb Script Installation
+# Wigan Radar Adsb Script Installer
 
-This script allows you to install the feed to share your data with Fly Italy Adsb.
+This script allows you to install the feed to share your data with Wigan Radar.
 
 ### How to download and use the script?
 
 Use these commands:
 
 ```
-wget -O /tmp/flyitalyadsbfeed.sh https://raw.githubusercontent.com/flyitalyadsb/fly-italy-adsb/master/install.sh
-sudo bash /tmp/flyitalyadsbfeed.sh
+wget -O /tmp/wiganradaradsbfeed.sh https://github.com/M7SPI/wigan-radar-adsb/blob/master/install.sh
+sudo bash /tmp/wiganradaradsbfeed.sh
 ```
 
 ### To check the status:
