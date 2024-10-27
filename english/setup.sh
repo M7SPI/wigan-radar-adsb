@@ -5,7 +5,7 @@
 #####################################################################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                                   #
-# Copyright (c) 2023 Fly Italy Adsb                                                 #
+# Copyright (c) 2024 Wigan Radar                                                #
 #                                                                                   #
 # Permission is hereby granted, free of charge, to any person obtaining a copy      #
 # of this software and associated documentation files (the "Software"), to deal     #
@@ -100,7 +100,7 @@ BACKTITLETEXT="Fly Italy Adsb's feed installation script"
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button YES --no-button NO --yesno "Thank you for choosing to share your data with Wigan Radar.\n\nThis script will automatically set up your receiver allowing it to share your data with Wigan Radar\n\nDo you want to continue with the installation?" 13 78
 if [[ $? != 0 ]]; then abort; fi
 
-WIGANRADARADSB_=$(whiptail --backtitle "$BACKTITLETEXT" --title "User name" --nocancel --inputbox "\nPlease insert a name for your receiver (http://wiganradar.co.uk/stato-mlat)\n\nUse only letters or numbers.\nExample: \"Giorgio34\", \"Piacenza1\", etc." 12 78 3>&1 1>&2 2>&3)
+WIGANRADARADSB_=$(whiptail --backtitle "$BACKTITLETEXT" --title "User name" --nocancel --inputbox "\nPlease insert a name for your receiver (http://wiganradar.co.uk/status-mlat)\n\nUse only letters or numbers.\nExample: \"Giorgio34\", \"Piacenza1\", etc." 12 78 3>&1 1>&2 2>&3)
 
 if [[ $? != 0 ]]; then abort; fi
 
