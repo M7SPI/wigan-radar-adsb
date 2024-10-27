@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 #####################################################################################
-#                        FLY ITALY ADSB SETUP SCRIPT FORKED                         #
+#                        WIGAN RADAR ADSB SETUP SCRIPT FORKED                         #
 #####################################################################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                                   #
@@ -90,17 +90,17 @@ echo "Checking the packages needed to execute this script.."
 
 ## ASSIGN VARIABLES
 
-IPATH=/usr/local/share/flyitalyadsb
+IPATH=/usr/local/share/wiganradaradsb
 LOGDIRECTORY="$PWD/logs"
 
 ## WHIPTAIL DIALOGS
 
 BACKTITLETEXT="Fly Italy Adsb's feed installation script"
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button YES --no-button NO --yesno "Thank you for choosing to share your data with Fly Italy Adsb.\n\nFly Italy Adsb is the first italian community dealing with ADS-B. This script will automatically set up your receiver allowing it to share his data with Fly Italy Adsb\n\nDo you want to continue with the installation?" 13 78
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button YES --no-button NO --yesno "Thank you for choosing to share your data with Wigan Radar.\n\nThis script will automatically set up your receiver allowing it to share your data with Wigan Radar\n\nDo you want to continue with the installation?" 13 78
 if [[ $? != 0 ]]; then abort; fi
 
-FLYITALYADSB_=$(whiptail --backtitle "$BACKTITLETEXT" --title "User name" --nocancel --inputbox "\nPlease insert a name for your receiver (http://flyitalyadsb.com/stato-mlat)\n\nUse only letters or numbers.\nExample: \"Giorgio34\", \"Piacenza1\", etc." 12 78 3>&1 1>&2 2>&3)
+WIGANRADARADSB_=$(whiptail --backtitle "$BACKTITLETEXT" --title "User name" --nocancel --inputbox "\nPlease insert a name for your receiver (http://wiganradar.co.uk/stato-mlat)\n\nUse only letters or numbers.\nExample: \"Giorgio34\", \"Piacenza1\", etc." 12 78 3>&1 1>&2 2>&3)
 
 if [[ $? != 0 ]]; then abort; fi
 
@@ -153,7 +153,7 @@ RECEIVERALTITUDE="$ALT"
 
 
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button YES --no-button NO --yesno "Now you're ready to share your data with Fly Italy Adsb.\nBy proceeding you declare that you have read and accepted our terms and conditions displayed at the following link https://www.flyitalyadsb.com/informazioni-legali-e-privacy/\n\nDo you want to proceed?" 10 78
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yes-button YES --no-button NO --yesno "Now you're ready to share your data with Wigan Radar.\nBy proceeding you declare that you have read and accepted our terms and conditions displayed at the following link https://www.wiganradar.co.uk/privacy/\n\nDo you want to proceed?" 10 78
 CONTINUESETUP=$?
 if [ $CONTINUESETUP = 1 ]; then
     exit 0
@@ -172,9 +172,9 @@ cp uninstall.sh $IPATH >> $LOGFILE  2>&1
 
 ## BEGIN SETUP
 {
-    if ! id -u flyitalyadsb &>/dev/null
+    if ! id -u wiganradaradsb &>/dev/null
     then
-        adduser --system --home $IPATH --no-create-home --quiet flyitalyadsb >> $LOGFILE  2>&1
+        adduser --system --home $IPATH --no-create-home --quiet wiganradaradsb >> $LOGFILE  2>&1
     fi
 
     echo 4
@@ -276,12 +276,12 @@ cp uninstall.sh $IPATH >> $LOGFILE  2>&1
     echo 64
     sleep 0.25
 
-    # copy flyitalyadsb-mlat service file
-    cp $PWD/scripts/flyitalyadsb-mlat.sh $IPATH >> $LOGFILE 2>&1
-    cp $PWD/scripts/flyitalyadsb-mlat.service /lib/systemd/system >> $LOGFILE 2>&1
+    # copy wiganradaradsb-mlat service file
+    cp $PWD/scripts/wiganradaradsb-mlat.sh $IPATH >> $LOGFILE 2>&1
+    cp $PWD/scripts/wiganradaradsb-mlat.service /lib/systemd/system >> $LOGFILE 2>&1
 
     # Enable flyitalyadsb-mlat service
-    systemctl enable flyitalyadsb-mlat >> $LOGFILE 2>&1
+    systemctl enable wiganradaradsb-mlat >> $LOGFILE 2>&1
 
     echo 70
     sleep 0.25
@@ -333,13 +333,13 @@ cp uninstall.sh $IPATH >> $LOGFILE  2>&1
     echo "" >> $LOGFILE
     echo "" >> $LOGFILE
 
-    cp $PWD/scripts/flyitalyadsb-feed.sh $IPATH >> $LOGFILE 2>&1
-    cp $PWD/scripts/flyitalyadsb-feed.service /lib/systemd/system >> $LOGFILE 2>&1
+    cp $PWD/scripts/wiganradaradsb-feed.sh $IPATH >> $LOGFILE 2>&1
+    cp $PWD/scripts/wiganradaradsb-feed.service /lib/systemd/system >> $LOGFILE 2>&1
 
     tee /etc/default/flyitalyadsb > /dev/null 2>> $LOGFILE <<EOF
     INPUT="127.0.0.1:30005"
     REDUCE_INTERVAL="0.5"
-    # user name for controlling the status of the MLAT-Multilateration  (flyitalyadsb.com/status-mlat)
+    # user name for controlling the status of the MLAT-Multilateration  (wiganradar.co.uk/status-mlat)
     UTENTE="${NOSPACENAME}"
     LATITUDINE="$RECEIVERLATITUDE"
     LONGITUDINE="$RECEIVERLONGITUDE"
