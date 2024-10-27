@@ -16,32 +16,32 @@ sudo bash /tmp/wiganradaradsbfeed.sh
 ### Show configuration 
 
 ```
-cat /etc/default/flyitalyadsb
+cat /etc/default/wiganradaradsb
 ```
 
-### If you encounter any issues, contact us (www.flyitalyadsb.com/contattaci) and send us the report of these commands (the last twenty lines are sufficient)
+### If you encounter any issues, contact us (www.wiganradar.co.uk) and send us the report of these commands (the last twenty lines are sufficient)
 
 ```
-sudo journalctl -u flyitalyadsb-feed --no-pager
-sudo journalctl -u flyitalyadsb-mlat --no-pager
+sudo journalctl -u wiganradaradsb-feed --no-pager
+sudo journalctl -u wiganradaradsb-mlat --no-pager
 ```
 
 ### To restart the script:
 
 ```
-sudo systemctl restart flyitalyadsb-feed
-sudo systemctl restart flyitalyadsb-mlat
+sudo systemctl restart wiganradaradsb-feed
+sudo systemctl restart wiganradaradsb-mlat
 ```
 
 ### Systemd Status
 
 ```
-sudo systemctl status flyitalyadsb-mlat
-sudo systemctl status flyitalyadsb-feed
+sudo systemctl status wiganradaradsb-mlat
+sudo systemctl status wiganradaradsb-feed
 ```
 
 ### To remove/disable the script:
 
 ```
-sudo bash /usr/local/share/flyitalyadsb/uninstall.sh
+sudo bash /usr/local/share/wiganradaradsb/uninstall.sh
 ```
