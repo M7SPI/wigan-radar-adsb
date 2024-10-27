@@ -1,6 +1,6 @@
 #!/bin/bash
 
-UUID_FILE="/usr/local/share/flyitalyadsb/flyitalyadsb-uuid"
+UUID_FILE="/usr/local/share/wiganradaradsb/wiganradaradsb-uuid"
 
 # Let's make sure the UUID tools are installed...
 UUIDGEN=$(command -v uuidgen)
