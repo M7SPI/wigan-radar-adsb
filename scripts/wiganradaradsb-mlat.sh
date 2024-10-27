@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /etc/default/flyitalyadsb
+source /etc/default/wiganradaradsb
 
 INPUT_IP=$(echo $INPUT | cut -d: -f1)
 INPUT_PORT=$(echo $INPUT | cut -d: -f2)
@@ -10,7 +10,7 @@ while ! nc -z "$INPUT_IP" "$INPUT_PORT" && command -v nc &>/dev/null; do
     sleep 30
 done
 
-/usr/local/share/flyitalyadsb/venv/bin/mlat-client \
+/usr/local/share/wiganradaradsb/venv/bin/mlat-client \
     --input-type "$INPUT_TYPE" --no-udp \
     --input-connect "$INPUT" \
     --server "$MLATSERVER" \
