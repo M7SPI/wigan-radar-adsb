@@ -19,7 +19,7 @@ sudo bash /tmp/wiganradaradsbfeed.sh
 cat /etc/default/wiganradaradsb
 ```
 
-### If you encounter any issues, contact us (www.wiganradar.co.uk) and send us the report of these commands (the last twenty lines are sufficient)
+### If you encounter any issues, contact us (https://www.wiganradar.co.uk/contact-us/) and send us the report of these commands (the last twenty lines are sufficient)
 
 ```
 sudo journalctl -u wiganradaradsb-feed --no-pager
