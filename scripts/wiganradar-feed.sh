@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /etc/default/flyitalyadsb
+source /etc/default/wiganradaradsb
 
 INPUT_IP=$(echo $INPUT | cut -d: -f1)
 INPUT_PORT=$(echo $INPUT | cut -d: -f2)
@@ -14,9 +14,9 @@ while ! nc -z "$INPUT_IP" "$INPUT_PORT" && command -v nc &>/dev/null; do
 done
 
 /usr/local/share/flyitalyadsb/feed --net --net-only --debug=n --quiet \
-    --write-json /run/flyitalyadsb-feed \
+    --write-json /run/wiganradaradsb-feed \
     --net-beast-reduce-interval $REDUCE_INTERVAL \
     $TARGET $NET_OPTIONS $SOURCE \
     --lat "$LATITUDINE" --lon "$LONGITUDINE" \
     --db-file none \
-    --uuid-file /usr/local/share/flyitalyadsb/flyitalyadsb-uuid
+    --uuid-file /usr/local/share/wiganradaradsb/wiganradaradsb-uuid
